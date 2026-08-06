@@ -1209,9 +1209,11 @@ async function callClaude(texto,fillId,stepsId,wrapId,resultsId,btnId){
     });
     if(!r.ok){const e=await r.json();throw new Error(e.error?.message||'Error '+r.status)}
     const data=await r.json();
+    const tb=data.content?.find(b=>b.type==='text');
+    if(!tb||!tb.text)throw new Error('Respuesta vacía del modelo');
     let a;
-    try{a=JSON.parse(data.content[0].text)}
-    catch{const m=data.content[0].text.match(/\{[\s\S]*\}/);if(m)a=JSON.parse(m[0]);else throw new Error('Error al parsear respuesta')}
+    try{a=JSON.parse(tb.text)}
+    catch{const m=tb.text.match(/\{[\s\S]*\}/);if(m)a=JSON.parse(m[0]);else throw new Error('Error al parsear respuesta')}
     stopProg(fillId,stepsId,wrapId);
     renderAnaResults(a,document.getElementById(resultsId));
   }catch(e){
