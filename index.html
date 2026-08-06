@@ -1202,7 +1202,7 @@ async function callClaude(texto,fillId,stepsId,wrapId,resultsId,btnId){
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:4000,
+        model:'claude-sonnet-5',max_tokens:4000,
         system:'Eres experto en contratación pública colombiana y convocatorias culturales. Ayudas a creativos (audiovisual, fotografía, diseño, artes visuales) a entender y postularse a oportunidades. Responde SOLO en español colombiano claro. Responde ÚNICAMENTE con JSON válido sin texto adicional ni backticks.',
         messages:[{role:'user',content:buildPrompt(texto,perfil)}]
       })
