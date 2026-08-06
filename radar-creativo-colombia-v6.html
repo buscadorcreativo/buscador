@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radar Creativo Colombia 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07070f;--s1:#0e0e1c;--s2:#151528;--s3:#1c1c34;
+  --b1:#242440;--b2:#323250;
+  --y:#f0e040;--yd:rgba(240,224,64,.10);--yb:rgba(240,224,64,.22);
+  --b:#38b2f5;--g:#38f5a0;--o:#f5a838;--r:#ff4455;--p:#c038f5;
+  --tx:#eaeaf8;--mu:#6868a0;--dm:#363658;
+  --mono:'Space Mono',monospace;--cond:'Barlow Condensed',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:var(--cond);min-height:100vh;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.02) 3px,rgba(0,0,0,.02) 4px);pointer-events:none;z-index:9999}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--y);color:#07070f;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:100}
+.tb-live{display:flex;align-items:center;gap:8px}
+.tb-dot{width:6px;height:6px;background:#07070f;border-radius:50%;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3;transform:scale(.6)}}
+
+/* ── HEADER ── */
+header{max-width:1200px;margin:0 auto;padding:32px 20px 0;position:relative;z-index:1}
+.eyebrow{font-family:var(--mono);font-size:9px;color:var(--y);letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:'▶';font-size:7px}
+h1{font-family:var(--cond);font-size:clamp(44px,7vw,84px);font-weight:900;line-height:.88;text-transform:uppercase}
+h1 em{color:var(--y);font-style:normal;display:block}
+.hsub{font-family:var(--mono);font-size:10px;color:var(--mu);margin-top:10px;line-height:1.9;margin-bottom:22px}
+
+/* ── STAT ROW ── */
+.stat-row{display:flex;gap:0;border:1px solid var(--b1);margin-bottom:0}
+.stat{flex:1;padding:13px 18px;border-right:1px solid var(--b1);text-align:center}
+.stat:last-child{border-right:none}
+.stat-n{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--y);display:block}
+.stat-l{font-family:var(--mono);font-size:9px;color:var(--dm);text-transform:uppercase;letter-spacing:.1em;display:block;margin-top:2px}
+
+/* ── MAIN NAV TABS ── */
+.navwrap{max-width:1200px;margin:0 auto;padding:0 20px;position:sticky;top:38px;z-index:90;background:var(--bg)}
+.tabs{display:flex;border-bottom:2px solid var(--b1);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{font-family:var(--cond);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:12px 14px;border:none;background:none;color:var(--mu);cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .15s,border-color .15s;display:flex;align-items:center;gap:6px}
+.tab:hover{color:var(--tx)}
+.tab.on{color:var(--y);border-bottom-color:var(--y)}
+.tc{font-family:var(--mono);font-size:9px;background:var(--s3);padding:2px 5px;color:var(--mu)}
+.tab.on .tc{background:var(--yd);color:var(--y)}
+
+/* ── MAIN ── */
+main{max-width:1200px;margin:0 auto;padding:24px 20px 60px;position:relative;z-index:1}
+.panel{display:none}.panel.on{display:block}
+
+/* ── SHARED BOXES ── */
+.ib{background:rgba(56,178,245,.04);border:1px solid rgba(56,178,245,.15);padding:11px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start}
+.ib svg{flex-shrink:0;color:var(--b);margin-top:1px}
+.ib p{font-family:var(--mono);font-size:10px;color:var(--mu);line-height:1.8}
+.ib strong{color:var(--tx)}
+.ib a{color:var(--b);text-decoration:none}
+
+.urg{background:rgba(240,224,64,.04);border:1px solid rgba(240,224,64,.18);padding:11px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start}
+.urg svg{flex-shrink:0;color:var(--y);margin-top:1px}
+.urg p{font-family:var(--mono);font-size:10px;color:var(--mu);line-height:1.8}
+.urg strong{color:var(--y)}
+
+/* ── SECOP SEARCH ── */
+.srow{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.iw{flex:1;min-width:180px;position:relative}
+.iw svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--dm);pointer-events:none}
+input[type=text]{width:100%;background:var(--s1);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:12px;padding:11px 11px 11px 34px;outline:none;transition:border-color .2s}
+input[type=text]:focus{border-color:var(--y)}
+select{background:var(--s1);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:11px;padding:11px 28px 11px 11px;outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236868a0'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;min-width:145px;transition:border-color .2s}
+select:focus{border-color:var(--y)}
+.btn{background:var(--y);color:#07070f;border:none;font-family:var(--cond);font-weight:800;font-size:14px;letter-spacing:.07em;text-transform:uppercase;padding:11px 22px;cursor:pointer;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%);transition:background .15s,transform .1s;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.btn:hover{background:#fff59d;transform:translateY(-1px)}
+.btn.busy{background:var(--s3);color:var(--mu);pointer-events:none;clip-path:none}
+
+/* ── CHIPS ── */
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px}
+.clbl{font-family:var(--mono);font-size:9px;color:var(--dm);text-transform:uppercase;letter-spacing:.12em;margin-right:3px;align-self:center}
+.chip{font-family:var(--mono);font-size:10px;padding:3px 9px;border:1px solid var(--b2);background:var(--s2);color:var(--mu);cursor:pointer;transition:all .15s;user-select:none}
+.chip:hover:not(.on){border-color:var(--mu);color:var(--tx)}
+.chip.on{border-color:var(--y);background:var(--yd);color:var(--y)}
+.doc-chip{font-family:var(--mono);font-size:10px;padding:4px 10px;border:1px solid var(--b2);background:var(--s2);color:var(--mu);cursor:pointer;transition:all .15s;user-select:none}
+.doc-chip:hover:not(.on){border-color:var(--mu);color:var(--tx)}
+.doc-chip.on{border-color:var(--g);background:rgba(56,245,160,.1);color:var(--g)}
+.doc-chip.on::before{content:'✓ '}
+
+/* ── STATS BAR ── */
+.sbar{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.snum{font-family:var(--mono);font-size:11px;color:var(--mu)}
+.snum strong{font-size:15px;color:var(--y)}
+.sortrow{display:flex;gap:5px;align-items:center}
+.slbl{font-family:var(--mono);font-size:9px;color:var(--dm);text-transform:uppercase;letter-spacing:.1em}
+.sbtn{font-family:var(--mono);font-size:10px;background:var(--s2);border:1px solid var(--b1);color:var(--mu);padding:4px 10px;cursor:pointer;transition:all .15s}
+.sbtn:hover,.sbtn.on{border-color:var(--y);color:var(--y);background:var(--yd)}
+
+/* ── SECOP CARDS ── */
+.clist{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
+.card{background:var(--s1);border:1px solid var(--b1);padding:15px;position:relative;overflow:hidden;transition:border-color .2s,transform .15s;animation:fup .2s ease both}
+@keyframes fup{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--b2);transition:background .2s}
+.card:hover{border-color:rgba(240,224,64,.2);transform:translateX(2px)}
+.card:hover::before{background:var(--y)}
+.ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:7px}
+.ctitle{font-family:var(--cond);font-size:15px;font-weight:700;line-height:1.3;flex:1;text-transform:uppercase;letter-spacing:.02em}
+.badge{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap;flex-shrink:0}
+.bo{background:rgba(56,178,245,.1);color:var(--b);border:1px solid rgba(56,178,245,.28)}
+.ba{background:rgba(245,168,56,.1);color:var(--o);border:1px solid rgba(245,168,56,.28)}
+.bc{background:rgba(60,60,80,.18);color:var(--dm);border:1px solid var(--b1)}
+.bmin{background:rgba(56,245,160,.1);color:var(--g);border:1px solid rgba(56,245,160,.28);font-size:8px}
+.cmeta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:7px}
+.cm{display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:10px;color:var(--mu)}
+.cm svg{color:var(--dm);flex-shrink:0}
+.cbot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding-top:7px;border-top:1px solid var(--b1)}
+.cent{font-family:var(--mono);font-size:9px;color:var(--dm);text-transform:uppercase;letter-spacing:.06em}
+.cacts{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.vtag{font-family:var(--mono);font-size:10px;color:var(--y);background:var(--yd);padding:2px 6px;border:1px solid var(--yb)}
+.lbtn{font-family:var(--mono);font-size:10px;color:var(--b);text-decoration:none;display:flex;align-items:center;gap:4px;transition:color .15s}
+.lbtn:hover{color:var(--y)}
+.abtn{font-family:var(--mono);font-size:10px;color:var(--p);text-decoration:none;display:flex;align-items:center;gap:4px;cursor:pointer;border:none;background:none;transition:color .15s}
+.abtn:hover{color:var(--y)}
+
+/* ── PAGINATION ── */
+.pag{display:flex;justify-content:center;gap:5px;margin-bottom:24px;flex-wrap:wrap}
+.pbtn{font-family:var(--mono);font-size:11px;background:var(--s2);border:1px solid var(--b1);color:var(--mu);padding:6px 11px;cursor:pointer;transition:all .15s}
+.pbtn:hover,.pbtn.on{border-color:var(--y);color:var(--y);background:var(--yd)}
+
+/* ── STATE ── */
+.stbox{text-align:center;padding:44px 20px;border:1px dashed var(--b2);margin-bottom:20px}
+.sti{font-size:34px;margin-bottom:11px}
+.stt{font-family:var(--cond);font-size:22px;font-weight:800;text-transform:uppercase;margin-bottom:6px}
+.sts{font-family:var(--mono);font-size:10px;color:var(--mu);max-width:400px;margin:0 auto;line-height:1.9}
+.sts a{color:var(--b);text-decoration:none}
+.spin{width:22px;height:22px;border:2px solid var(--b1);border-top-color:var(--y);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 11px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── CULTURAL GRID ── */
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;margin-top:26px}
+.sec-head:first-of-type{margin-top:0}
+.sec-head h2{font-family:var(--cond);font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.shline{flex:1;height:1px;background:var(--b1)}
+.shc{font-family:var(--mono);font-size:9px;color:var(--dm);white-space:nowrap}
+
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:9px;margin-bottom:8px}
+.ccard{background:var(--s1);border:1px solid var(--b1);padding:15px;display:flex;flex-direction:column;gap:9px;text-decoration:none;color:inherit;transition:border-color .2s,transform .15s;position:relative;overflow:hidden;animation:fup .2s ease both}
+.ccard::before{content:'';position:absolute;left:0;top:0;right:0;height:2px}
+.ccard[data-s=open]::before{background:var(--g);opacity:.7}
+.ccard[data-s=open]:hover{border-color:rgba(56,245,160,.28)}
+.ccard[data-s=proxima]::before{background:var(--b);opacity:.6}
+.ccard[data-s=proxima]:hover{border-color:rgba(56,178,245,.28)}
+.ccard[data-s=privado]::before{background:var(--p);opacity:.6}
+.ccard[data-s=privado]:hover{border-color:rgba(192,56,245,.28)}
+.ccard[data-s=periodic]::before{background:var(--o);opacity:.5}
+.ccard[data-s=periodic]:hover{border-color:rgba(245,168,56,.28)}
+.ccard:hover{transform:translateY(-2px)}
+.cc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:9px}
+.cc-ico{width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--s3);flex-shrink:0}
+.cc-title{font-family:var(--cond);font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:.02em;line-height:1.15;color:var(--tx)}
+.cc-org{font-family:var(--mono);font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+.cbadge{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.cb-o{background:rgba(56,245,160,.1);color:var(--g);border:1px solid rgba(56,245,160,.28)}
+.cb-p{background:rgba(56,178,245,.1);color:var(--b);border:1px solid rgba(56,178,245,.28)}
+.cb-pr{background:rgba(245,168,56,.1);color:var(--o);border:1px solid rgba(245,168,56,.28)}
+.cb-priv{background:rgba(192,56,245,.1);color:var(--p);border:1px solid rgba(192,56,245,.28)}
+.cb-cl{background:rgba(80,80,120,.15);color:var(--dm);border:1px solid var(--b1)}
+.cc-desc{font-family:var(--mono);font-size:10px;color:var(--mu);line-height:1.75}
+.cc-tags{display:flex;flex-wrap:wrap;gap:4px}
+.ctag{font-family:var(--mono);font-size:9px;padding:2px 5px;background:var(--s3);color:var(--dm);border:1px solid var(--b1)}
+.cc-foot{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--b1);gap:8px;flex-wrap:wrap}
+.cc-val{font-family:var(--mono);font-size:10px;color:var(--y);background:var(--yd);padding:2px 6px;border:1px solid var(--yb)}
+.cc-fecha{font-family:var(--mono);font-size:9px;color:var(--dm)}
+.cc-lnk{font-family:var(--mono);font-size:10px;color:var(--b);display:flex;align-items:center;gap:4px;text-decoration:none;transition:color .15s}
+.cc-lnk:hover{color:var(--y)}
+.dias-r{font-family:var(--mono);font-size:9px;color:var(--r);background:rgba(255,68,85,.1);padding:2px 7px;border:1px solid rgba(255,68,85,.3);animation:fl 1.5s infinite}
+@keyframes fl{50%{opacity:.5}}
+.dias-o{font-family:var(--mono);font-size:9px;color:var(--o);background:rgba(245,168,56,.1);padding:2px 7px;border:1px solid rgba(245,168,56,.3)}
+.dias-g{font-family:var(--mono);font-size:9px;color:var(--g);background:rgba(56,245,160,.08);padding:2px 7px;border:1px solid rgba(56,245,160,.2)}
+
+/* ── ANALYZE BUTTON ON CARDS ── */
+.analyze-card-btn{
+  font-family:var(--mono);font-size:9px;color:var(--p);
+  background:rgba(192,56,245,.08);border:1px solid rgba(192,56,245,.25);
+  padding:4px 10px;cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;gap:5px;margin-top:4px;width:100%;
+  justify-content:center;
+}
+.analyze-card-btn:hover{background:rgba(192,56,245,.15);border-color:var(--p);color:#fff}
+
+/* ── FILTER BAR ── */
+.fbar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;align-items:center}
+.flbl{font-family:var(--mono);font-size:9px;color:var(--dm);text-transform:uppercase;letter-spacing:.12em;margin-right:3px}
+.fc{font-family:var(--mono);font-size:10px;padding:4px 10px;border:1px solid var(--b2);background:var(--s2);color:var(--mu);cursor:pointer;transition:all .15s;user-select:none}
+.fc:hover:not(.fon){border-color:var(--mu);color:var(--tx)}
+.fc.fon{border-color:var(--y);background:var(--yd);color:var(--y)}
+
+/* ── FUENTES ── */
+.fsrc-list{display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
+.fsrc{background:var(--s1);border:1px solid var(--b1);padding:13px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;text-decoration:none;color:inherit;transition:border-color .2s}
+.fsrc:hover{border-color:rgba(56,178,245,.3)}
+.fsrc-l{display:flex;flex-direction:column;gap:4px}
+.fsrc-name{font-family:var(--cond);font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.fsrc-desc{font-family:var(--mono);font-size:10px;color:var(--mu)}
+.fsrc-r{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.fsrc-lnk{font-family:var(--mono);font-size:10px;color:var(--b);display:flex;align-items:center;gap:4px;text-decoration:none;transition:color .15s}
+.fsrc:hover .fsrc-lnk{color:var(--y)}
+
+/* ── ANALIZADOR MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(7,7,15,.92);
+  z-index:1000;display:none;align-items:flex-start;
+  justify-content:center;padding:20px;overflow-y:auto;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--s1);border:1px solid var(--b2);
+  width:100%;max-width:760px;
+  margin:auto;position:relative;
+  animation:fup .25s ease;
+}
+.modal-header{
+  background:var(--p);color:#fff;
+  padding:14px 20px;display:flex;justify-content:space-between;align-items:center;
+}
+.modal-title{font-family:var(--cond);font-size:22px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.modal-close{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;padding:0 4px;line-height:1;font-family:var(--mono)}
+.modal-body{padding:20px}
+
+/* API KEY */
+.key-row{display:flex;gap:8px;margin-bottom:6px}
+.key-input{flex:1;background:var(--s2);border:1px solid var(--b2);color:var(--tx);font-family:var(--mono);font-size:11px;padding:9px 11px;outline:none;transition:border-color .2s}
+.key-input:focus{border-color:var(--p)}
+.key-btn{background:var(--p);color:#fff;border:none;font-family:var(--cond);font-weight:800;font-size:12px;text-transform:uppercase;padding:9px 16px;cursor:pointer;transition:background .15s}
+.key-btn:hover{background:#d060ff}
+.key-status{font-family:var(--mono);font-size:9px;margin-bottom:14px}
+.kok{color:var(--g)}.kno{color:var(--r)}
+
+/* CONV TEXT */
+.modal-section-label{font-family:var(--mono);font-size:9px;color:var(--dm);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.conv-ta{width:100%;background:var(--s2);border:1px solid var(--b2);color:var(--tx);font-family:var(--mono);font-size:10px;padding:12px;outline:none;resize:vertical;min-height:100px;line-height:1.7;margin-bottom:12px;transition:border-color .2s}
+.conv-ta:focus{border-color:var(--p)}
+
+/* ANALYZE BTN */
+.go-analyze{
+  width:100%;background:var(--p);color:#fff;border:none;
+  font-family:var(--cond);font-weight:800;font-size:18px;
+  text-transform:uppercase;letter-spacing:.07em;
+  padding:14px;cursor:pointer;transition:background .15s;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  margin-bottom:18px;
+}
+.go-analyze:hover{background:#d060ff}
+.go-analyze:disabled{background:var(--s3);color:var(--mu);pointer-events:none}
+
+/* PROGRESS */
+.prog-wrap{margin-bottom:16px;display:none}
+.prog-wrap.show{display:block}
+.prog-bar{height:2px;background:var(--b1);margin-bottom:8px}
+.prog-fill{height:100%;background:var(--p);width:0%;transition:width .3s}
+.prog-steps{display:flex;flex-direction:column;gap:4px}
+.pstep{font-family:var(--mono);font-size:9px;color:var(--dm);display:flex;align-items:center;gap:7px}
+.pstep::before{content:'○';font-size:8px}
+.pstep.act{color:var(--p)}.pstep.act::before{content:'▶';color:var(--p)}
+.pstep.done{color:var(--g)}.pstep.done::before{content:'✓';color:var(--g)}
+
+/* RESULTS INSIDE MODAL */
+.res-block{background:var(--s2);border:1px solid var(--b1);margin-bottom:10px;overflow:hidden}
+.rb-head{
+  padding:12px 15px;border-bottom:1px solid var(--b1);
+  display:flex;align-items:center;gap:9px;cursor:pointer;
+}
+.rb-head:hover{background:var(--s3)}
+.rb-icon{font-size:14px;flex-shrink:0}
+.rb-title{font-family:var(--cond);font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;flex:1}
+.rb-tog{font-family:var(--mono);font-size:10px;color:var(--mu)}
+.rb-body{padding:15px;display:none}
+.rb-body.open{display:block}
+
+/* score */
+.score-wrap{display:flex;gap:16px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.score-n{font-family:var(--mono);font-size:44px;font-weight:700;line-height:1;flex-shrink:0}
+.sh{color:var(--g)}.sm{color:var(--o)}.sl{color:var(--r)}
+.score-info-title{font-family:var(--cond);font-size:20px;font-weight:800;text-transform:uppercase;margin-bottom:3px}
+.score-sub{font-family:var(--mono);font-size:10px;color:var(--mu);line-height:1.7}
+.score-badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.sbadge{font-family:var(--mono);font-size:9px;padding:2px 7px;text-transform:uppercase;letter-spacing:.08em}
+.sb-g{background:rgba(56,245,160,.1);color:var(--g);border:1px solid rgba(56,245,160,.28)}
+.sb-o{background:rgba(245,168,56,.1);color:var(--o);border:1px solid rgba(245,168,56,.28)}
+.sb-r{background:rgba(255,68,85,.1);color:var(--r);border:1px solid rgba(255,68,85,.3)}
+.sb-b{background:rgba(56,178,245,.1);color:var(--b);border:1px solid rgba(56,178,245,.28)}
+.sb-p{background:rgba(192,56,245,.1);color:var(--p);border:1px solid rgba(192,56,245,.28)}
+
+/* resumen */
+.rtext{font-family:var(--mono);font-size:10px;color:var(--mu);line-height:1.85}
+.rtext strong{color:var(--tx)}.rtext em{color:var(--y);font-style:normal}
+.rtext p{margin-bottom:9px}
+
+/* checklist */
+.checklist{display:flex;flex-direction:column;gap:5px}
+.ci{display:flex;align-items:flex-start;gap:8px;font-family:var(--mono);font-size:10px;padding:7px 9px;background:var(--s3);border:1px solid var(--b1)}
+.cbox{width:15px;height:15px;border:1px solid var(--b2);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-top:1px}
+.cbox.done{background:var(--g);border-color:var(--g)}
+.cbox.done::after{content:'✓';font-size:9px;color:#07070f;font-weight:700}
+.ci-label{flex:1;line-height:1.6}
+.ci-label.done-txt{color:var(--dm);text-decoration:line-through}
+.ci-diff{font-size:9px;margin-top:2px}
+.df{color:var(--g)}.dm2{color:var(--o)}.dh{color:var(--r)}
+
+/* viabilidad */
+.via-list{display:flex;flex-direction:column;gap:5px}
+.via-item{display:flex;gap:8px;padding:8px 10px;font-family:var(--mono);font-size:10px;line-height:1.7;background:var(--s3);border:1px solid var(--b1)}
+.via-g{border-left:3px solid var(--g)}.via-o{border-left:3px solid var(--o)}.via-r{border-left:3px solid var(--r)}
+
+/* propuestas */
+.prop-card{background:var(--s3);border:1px solid var(--b1);padding:15px;margin-bottom:9px;position:relative}
+.prop-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.pc1::before{background:var(--y)}.pc2::before{background:var(--b)}.pc3::before{background:var(--p)}
+.prop-num{font-family:var(--mono);font-size:9px;color:var(--dm);text-transform:uppercase;letter-spacing:.12em;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center}
+.prop-title{font-family:var(--cond);font-size:18px;font-weight:800;text-transform:uppercase;margin-bottom:7px;line-height:1.15}
+.prop-body{font-family:var(--mono);font-size:10px;color:var(--mu);line-height:1.8;margin-bottom:9px}
+.prop-pq{font-family:var(--mono);font-size:10px;background:var(--s2);border:1px solid var(--b1);padding:7px 10px;margin-bottom:8px;line-height:1.7}
+.prop-pq strong{color:var(--y)}
+.prop-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.copy-btn{font-family:var(--mono);font-size:9px;background:var(--s2);border:1px solid var(--b2);color:var(--mu);padding:3px 9px;cursor:pointer;transition:all .15s}
+.copy-btn:hover{border-color:var(--y);color:var(--y)}
+.copy-btn.ok{color:var(--g);border-color:var(--g)}
+
+/* next steps */
+.steps-list{display:flex;flex-direction:column;gap:5px}
+.si2{display:flex;gap:8px;padding:7px 9px;background:var(--s3);border:1px solid var(--b1);font-family:var(--mono);font-size:10px;line-height:1.6}
+.step-n{font-family:var(--mono);font-size:10px;color:var(--y);font-weight:700;flex-shrink:0;width:18px}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--b1);padding:16px 20px;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;position:relative;z-index:1}
+.ftxt{font-family:var(--mono);font-size:9px;color:var(--dm);line-height:1.9}
+.ftxt a{color:var(--mu);text-decoration:none}
+.ftxt a:hover{color:var(--y)}
+
+@media(max-width:600px){.srow{flex-direction:column}.stat-row{flex-wrap:wrap}.stat{min-width:45%}.cgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-live"><div class="tb-dot"></div>RADAR CREATIVO COLOMBIA 2026 · Audiovisual · Diseño · Fotografía · Artes Visuales</div>
+  <span id="clk">—</span>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="eyebrow">Sistema unificado · Públicas y Privadas · Tiempo Real</div>
+  <h1>RADAR<em>CREATIVO 2026</em></h1>
+  <p class="hsub">SECOP II · SINAC · IDARTES · FDC · SmartFilms · ARTBO · BAM · Bacánika · Ibermedia<br>Contratos públicos + Estímulos + Fondos + Análisis con IA + Propuestas narrativas</p>
+  <div class="stat-row">
+    <div class="stat"><span class="stat-n" id="st-secop">—</span><span class="stat-l">SECOP 2026</span></div>
+    <div class="stat"><span class="stat-n">20</span><span class="stat-l">Estímulos activos</span></div>
+    <div class="stat"><span class="stat-n">8</span><span class="stat-l">Privadas</span></div>
+    <div class="stat"><span class="stat-n">6</span><span class="stat-l">Internacional</span></div>
+  </div>
+</header>
+
+<!-- NAV -->
+<div class="navwrap">
+  <div class="tabs">
+    <button class="tab on" onclick="sw('secop',this)">🔎 SECOP II<span class="tc" id="tc-s">API</span></button>
+    <button class="tab" onclick="sw('pub',this)">🏛 Públicas<span class="tc">20</span></button>
+    <button class="tab" onclick="sw('priv',this)">🏢 Privadas<span class="tc">8</span></button>
+    <button class="tab" onclick="sw('inter',this)">🌎 Internacional<span class="tc">6</span></button>
+    <button class="tab" onclick="sw('fuentes',this)">📡 Fuentes<span class="tc">5</span></button>
+    <button class="tab" onclick="sw('analizador',this)" style="color:var(--p)">🧠 Analizador IA<span class="tc" style="background:rgba(192,56,245,.15);color:var(--p)">Nuevo</span></button>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════ SECOP II ══════════ -->
+<div class="panel on" id="panel-secop">
+  <div class="ib">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    <p>API pública SECOP II en <strong>tiempo real</strong>. Solo contratos de <strong>2026</strong>. Por defecto muestra procesos <strong>Convocados (abiertos)</strong>. Marca <strong>Mínima cuantía</strong> para ver los más accesibles. Haz clic en <span style="color:var(--p)">Analizar</span> en cualquier contrato para obtener resumen + propuestas.</p>
+  </div>
+  <div class="srow">
+    <div class="iw">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="si" placeholder="Buscar… ej: video institucional, fotografía evento, animación">
+    </div>
+    <select id="sest">
+      <option value="">Todos los estados</option>
+      <option value="abierto">Solo abiertos</option>
+      <option value="adjudicado">Adjudicado</option>
+      <option value="desierto">Desierto</option>
+    </select>
+    <button class="btn" id="sbtn" onclick="buscar(1)">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>BUSCAR
+    </button>
+  </div>
+  <div class="srow" style="margin-top:-4px">
+    <select id="speriodo" style="min-width:auto;flex:1">
+      <option value="">Todo 2026</option>
+      <option value="3m" selected>Últimos 3 meses (más activos)</option>
+      <option value="1m">Último mes</option>
+      <option value="15d">Últimos 15 días</option>
+    </select>
+    <select id="smodalidad" style="min-width:auto;flex:1">
+      <option value="">Toda modalidad</option>
+      <option value="Mínima cuantía">Mínima cuantía</option>
+      <option value="Licitación">Licitación pública</option>
+      <option value="Selección Abreviada">Selección abreviada</option>
+      <option value="Concurso de Méritos">Concurso de méritos</option>
+      <option value="Contratación Directa">Contratación directa</option>
+    </select>
+    <select id="scuantia" style="min-width:auto;flex:1">
+      <option value="">Todo valor</option>
+      <option value="minima">≤ $132M (accesible)</option>
+      <option value="mediana">$132M – $1.000M</option>
+      <option value="mayor">> $1.000M</option>
+    </select>
+    <select id="sdepto" style="min-width:auto;flex:1">
+      <option value="">Todo el país</option>
+      <option value="Bogotá">Bogotá D.C.</option>
+      <option value="Antioquia">Antioquia</option>
+      <option value="Valle del Cauca">Valle del Cauca</option>
+      <option value="Atlántico">Atlántico</option>
+      <option value="Cundinamarca">Cundinamarca</option>
+      <option value="Santander">Santander</option>
+      <option value="Bolívar">Bolívar</option>
+      <option value="Risaralda">Risaralda</option>
+      <option value="Caldas">Caldas</option>
+      <option value="Nariño">Nariño</option>
+      <option value="Norte de Santander">N. de Santander</option>
+      <option value="Tolima">Tolima</option>
+      <option value="Boyacá">Boyacá</option>
+      <option value="Córdoba">Córdoba</option>
+      <option value="Magdalena">Magdalena</option>
+      <option value="Huila">Huila</option>
+      <option value="Cauca">Cauca</option>
+      <option value="Meta">Meta</option>
+      <option value="Quindío">Quindío</option>
+      <option value="Cesar">Cesar</option>
+    </select>
+  </div>
+  <div class="chips">
+    <span class="clbl">Keywords:</span>
+    <span class="chip on" data-kw="audiovisual">audiovisual</span>
+    <span class="chip on" data-kw="produccion video">video</span>
+    <span class="chip" data-kw="fotografia">fotografía</span>
+    <span class="chip" data-kw="registro fotografico">reg. fotog.</span>
+    <span class="chip" data-kw="diseño grafico">diseño gráfico</span>
+    <span class="chip" data-kw="pieza grafica">pieza gráfica</span>
+    <span class="chip" data-kw="identidad visual">identidad visual</span>
+    <span class="chip" data-kw="artes visuales">artes visuales</span>
+    <span class="chip" data-kw="multimedia">multimedia</span>
+    <span class="chip" data-kw="streaming">streaming</span>
+    <span class="chip" data-kw="video institucional">institucional</span>
+    <span class="chip" data-kw="cobertura audiovisual">cobertura AV</span>
+    <span class="chip" data-kw="documental">documental</span>
+    <span class="chip" data-kw="animacion">animación</span>
+    <span class="chip" data-kw="edicion video">edición</span>
+    <span class="chip" data-kw="produccion audiovisual">prod. AV</span>
+    <span class="chip" data-kw="contenidos digitales">digital</span>
+    <span class="chip" data-kw="postproduccion">posproducción</span>
+    <span class="chip" data-kw="grabacion">grabación</span>
+    <span class="chip" data-kw="ilustracion">ilustración</span>
+    <span class="chip" data-kw="material grafico">material gráfico</span>
+    <span class="chip" data-kw="video corporativo">corporativo</span>
+  </div>
+  <div class="sbar" id="sbar" style="display:none">
+    <div class="snum" id="snum">—</div>
+    <div class="sortrow">
+      <span class="slbl">Ord:</span>
+      <button class="sbtn on" id="sf" onclick="tSort('f')">Recientes ↓</button>
+      <button class="sbtn" id="sv" onclick="tSort('v')">Mayor valor</button>
+    </div>
+  </div>
+  <div id="sr">
+    <div class="stbox"><div class="sti">🎬</div><div class="stt">Listo para buscar</div><div class="sts">Activa chips y presiona <strong>BUSCAR</strong>. Solo resultados 2026. Cada contrato tiene botón <span style="color:var(--p)">Analizar con IA</span> para obtener resumen, requisitos y 3 propuestas narrativas.</div></div>
+  </div>
+  <div class="pag" id="pag"></div>
+</div>
+
+<!-- ══════════ PÚBLICAS ══════════ -->
+<div class="panel" id="panel-pub">
+  <div class="urg">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <p>Convocatorias públicas <strong>verificadas en 2026</strong>. Estado, distritales y municipales. Confirma en el link oficial antes de postular. Usa el botón <strong style="color:var(--p)">🧠 Analizar</strong> para obtener resumen, checklist de requisitos y 3 propuestas narrativas de cada una.</p>
+  </div>
+  <div class="fbar">
+    <span class="flbl">Disciplina:</span>
+    <span class="fc fon" data-fc="all" onclick="ff('all',this,'pub')">Todas</span>
+    <span class="fc" data-fc="av" onclick="ff('av',this,'pub')">🎬 Audiovisual</span>
+    <span class="fc" data-fc="foto" onclick="ff('foto',this,'pub')">📸 Fotografía</span>
+    <span class="fc" data-fc="visual" onclick="ff('visual',this,'pub')">🎨 Artes Visuales</span>
+    <span class="fc" data-fc="diseño" onclick="ff('diseño',this,'pub')">✏️ Diseño</span>
+    <span class="fc" data-fc="cine" onclick="ff('cine',this,'pub')">🎞 Cine/FDC</span>
+  </div>
+  <div id="g-pub"></div>
+</div>
+
+<!-- ══════════ PRIVADAS ══════════ -->
+<div class="panel" id="panel-priv">
+  <div class="ib">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+    <p>Convocatorias privadas: <strong>SmartFilms, Bacánika, ARTBO, Comfama, BAM, Zona Cinco</strong> y más. Muchas con premios en efectivo. Haz clic en <span style="color:var(--p)">Analizar</span> para ver los requisitos y generar propuestas.</p>
+  </div>
+  <div class="fbar">
+    <span class="flbl">Tipo:</span>
+    <span class="fc fon" data-fc="all" onclick="ff('all',this,'priv')">Todas</span>
+    <span class="fc" data-fc="av" onclick="ff('av',this,'priv')">🎬 Audiovisual</span>
+    <span class="fc" data-fc="foto" onclick="ff('foto',this,'priv')">📸 Fotografía</span>
+    <span class="fc" data-fc="visual" onclick="ff('visual',this,'priv')">🎨 Artes Visuales</span>
+    <span class="fc" data-fc="diseño" onclick="ff('diseño',this,'priv')">✏️ Diseño/Ilustración</span>
+  </div>
+  <div class="cgrid" id="g-priv"></div>
+</div>
+
+<!-- ══════════ INTERNACIONAL ══════════ -->
+<div class="panel" id="panel-inter">
+  <div class="ib">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    <p>Fondos y convocatorias internacionales <strong>abiertas a colombianos en 2026</strong>. Generalmente se necesita un proyecto en desarrollo o una obra previa terminada.</p>
+  </div>
+  <div class="cgrid" id="g-inter"></div>
+</div>
+
+<!-- ══════════ FUENTES ══════════ -->
+<div class="panel" id="panel-fuentes">
+  <div class="ib">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    <p><strong>Portales que debes revisar regularmente.</strong> No tienen API — las convocatorias abren por ventanas cortas. Márcalos como favoritos y revísalos cada lunes.</p>
+  </div>
+  <div class="fsrc-list" id="g-fuentes"></div>
+</div>
+
+<!-- ══════════ ANALIZADOR ══════════ -->
+<div class="panel" id="panel-analizador">
+  <div class="ib" style="border-color:rgba(192,56,245,.2);background:rgba(192,56,245,.04)">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--p)" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    <p>Pega el texto de <strong>cualquier convocatoria</strong> — SECOP II, IDARTES, FDC, SmartFilms — y obtienes: resumen claro, checklist de requisitos, <strong style="color:var(--y)">análisis de aptitud (¿soy apto? ¿qué documentos me faltan? ¿cumplo la capacidad financiera?)</strong> y <strong>3 propuestas narrativas.</strong> Llena tu "Perfil para licitaciones" abajo para el análisis de aptitud completo. Necesitas API key gratuita de Claude.</p>
+  </div>
+
+  <!-- API KEY -->
+  <div style="background:var(--s1);border:1px solid var(--b2);padding:16px;margin-bottom:16px">
+    <div style="font-family:var(--mono);font-size:9px;color:var(--p);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px">🔑 API Key de Claude (gratis en console.anthropic.com)</div>
+    <div class="key-row">
+      <input type="password" class="key-input" id="ak" placeholder="sk-ant-api03-...">
+      <button class="key-btn" onclick="saveKey()">GUARDAR</button>
+    </div>
+    <div class="key-status kno" id="ks">Sin configurar — necesitas una key para analizar.</div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--dm);margin-top:6px;line-height:1.7">1. Ve a <a href="https://console.anthropic.com" target="_blank" style="color:var(--b)">console.anthropic.com</a> → crea cuenta gratis → API Keys → nueva key · 2. Cada análisis cuesta ~$0.01 USD (menos de $100 COP)</div>
+  </div>
+
+  <!-- PERFIL -->
+  <div style="background:var(--s1);border:1px solid var(--b1);padding:16px;margin-bottom:16px">
+    <div style="font-family:var(--mono);font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px">Tu perfil (se guarda automáticamente en este navegador)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        <div class="modal-section-label">Nombre / empresa</div>
+        <input type="text" id="pn" placeholder="ej: Productora AV" style="background:var(--s2);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:11px;padding:8px 10px;outline:none;width:100%;transition:border-color .2s">
+      </div>
+      <div>
+        <div class="modal-section-label">Tipo</div>
+        <select id="pt" style="width:100%"><option value="natural">Persona natural</option><option value="juridica">Empresa</option><option value="colectivo">Colectivo / unión temporal</option></select>
+      </div>
+      <div>
+        <div class="modal-section-label">Disciplinas</div>
+        <input type="text" id="pd" placeholder="ej: video, fotografía, diseño" style="background:var(--s2);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:11px;padding:8px 10px;outline:none;width:100%">
+      </div>
+      <div>
+        <div class="modal-section-label">Ciudad · Experiencia · RUP</div>
+        <div style="display:flex;gap:6px">
+          <input type="text" id="pc" placeholder="Ciudad" style="flex:1;min-width:0;background:var(--s2);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:11px;padding:8px 10px;outline:none">
+          <select id="pe" style="flex:1"><option value="1-2">1-2 años</option><option value="3-5" selected>3-5 años</option><option value="5+">5+ años</option></select>
+          <select id="pr" style="flex:1"><option value="si">RUP ✓</option><option value="no">Sin RUP</option></select>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOGGLE PERFIL LICITACIONES -->
+    <div onclick="toggleLicit()" style="cursor:pointer;margin-top:14px;padding-top:12px;border-top:1px solid var(--b1);display:flex;align-items:center;gap:8px;user-select:none">
+      <span id="licit-arrow" style="font-family:var(--mono);font-size:11px;color:var(--y);transition:transform .2s">▶</span>
+      <span style="font-family:var(--cond);font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--y)">Perfil para licitaciones públicas</span>
+      <span style="font-family:var(--mono);font-size:9px;color:var(--dm);margin-left:auto">opcional — mejora el análisis de aptitud</span>
+    </div>
+    <div id="licit-body" style="display:none;margin-top:12px">
+      <div style="font-family:var(--mono);font-size:9px;color:var(--mu);line-height:1.7;margin-bottom:12px;background:var(--s2);padding:9px 11px;border-left:2px solid var(--y)">
+        Estos datos permiten que el análisis te diga <strong style="color:var(--tx)">si eres apto</strong> para cada licitación y <strong style="color:var(--tx)">qué te falta</strong>. No se envían a ningún servidor — se guardan solo en tu navegador. Para montos usa cifras aproximadas de tus estados financieros del año anterior.
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <div class="modal-section-label">💰 Capacidad financiera — Activos totales</div>
+          <input type="text" id="pf-activos" placeholder="ej: 120000000" style="background:var(--s2);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:11px;padding:8px 10px;outline:none;width:100%">
+        </div>
+        <div>
+          <div class="modal-section-label">Pasivos totales</div>
+          <input type="text" id="pf-pasivos" placeholder="ej: 30000000" style="background:var(--s2);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:11px;padding:8px 10px;outline:none;width:100%">
+        </div>
+        <div>
+          <div class="modal-section-label">Activo corriente</div>
+          <input type="text" id="pf-actcorr" placeholder="ej: 80000000" style="background:var(--s2);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:11px;padding:8px 10px;outline:none;width:100%">
+        </div>
+        <div>
+          <div class="modal-section-label">Pasivo corriente</div>
+          <input type="text" id="pf-pascorr" placeholder="ej: 20000000" style="background:var(--s2);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:11px;padding:8px 10px;outline:none;width:100%">
+        </div>
+        <div style="grid-column:1/-1">
+          <div class="modal-section-label">📋 Experiencia certificada (contratos similares ejecutados)</div>
+          <textarea id="pf-exp" placeholder="ej: 3 contratos de producción audiovisual con alcaldías 2023-2025 por $45M, $30M y $60M. Cobertura fotográfica para IDARTES 2024..." style="background:var(--s2);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:11px;padding:8px 10px;outline:none;width:100%;min-height:54px;resize:vertical;line-height:1.6"></textarea>
+        </div>
+        <div style="grid-column:1/-1">
+          <div class="modal-section-label">📄 Documentos que ya tienes listos</div>
+          <div id="pf-docs" style="display:flex;flex-wrap:wrap;gap:5px">
+            <span class="doc-chip" data-doc="RUT">RUT</span>
+            <span class="doc-chip" data-doc="Cámara de Comercio">Cám. Comercio</span>
+            <span class="doc-chip" data-doc="RUP vigente">RUP vigente</span>
+            <span class="doc-chip" data-doc="Estados financieros">Estados financieros</span>
+            <span class="doc-chip" data-doc="Certificados de experiencia">Cert. experiencia</span>
+            <span class="doc-chip" data-doc="Antecedentes fiscales/disciplinarios/judiciales">Antecedentes</span>
+            <span class="doc-chip" data-doc="Pólizas/garantías">Pólizas</span>
+            <span class="doc-chip" data-doc="Certificación bancaria">Cert. bancaria</span>
+            <span class="doc-chip" data-doc="Pago seguridad social">Seguridad social</span>
+            <span class="doc-chip" data-doc="Hojas de vida del equipo">HV equipo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- INPUT -->
+  <div class="modal-section-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16h16V8z"/></svg> Texto de la convocatoria a analizar</div>
+  <textarea class="conv-ta" id="cta" placeholder="Pega aquí el texto completo de la convocatoria.
+
+Puede ser:
+• Texto copiado de SECOP II
+• Texto de IDARTES, FDC, SmartFilms, Bacánika, etc.
+• Descripción básica del proceso
+
+También puedes hacer clic en 🧠 Analizar en cualquier tarjeta de las otras pestañas para pre-cargar el texto automáticamente." style="min-height:130px"></textarea>
+
+  <button class="go-analyze" id="gabtn" onclick="analizarDirecto()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    ANALIZAR CONVOCATORIA
+  </button>
+
+  <!-- PROGRESS -->
+  <div class="prog-wrap" id="pw">
+    <div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
+    <div class="prog-steps" id="ps"></div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="ana-results"></div>
+</div>
+
+</main>
+
+<!-- MODAL ANALIZADOR (desde cards) -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title">🧠 Analizando Convocatoria</div>
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <div class="modal-section-label">Texto de la convocatoria</div>
+      <textarea class="conv-ta" id="modal-ta" placeholder="El texto se pre-cargó desde la tarjeta. Puedes editarlo o agregar más información antes de analizar." style="min-height:100px"></textarea>
+      <button class="go-analyze" id="modal-go" onclick="analizarDesdeModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        ANALIZAR AHORA
+      </button>
+      <div class="prog-wrap" id="modal-pw"><div class="prog-bar"><div class="prog-fill" id="modal-pf"></div></div><div class="prog-steps" id="modal-ps"></div></div>
+      <div id="modal-results"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="ftxt">
+    SECOP II: <a href="https://www.datos.gov.co" target="_blank">datos.gov.co</a> · <a href="https://community.secop.gov.co" target="_blank">community.secop.gov.co</a><br>
+    Cultura: <a href="https://sistemaconvocatorias.mincultura.gov.co" target="_blank">SINAC</a> · <a href="https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026" target="_blank">IDARTES</a> · <a href="https://www.convocatoriafdc.com" target="_blank">FDC</a> · <a href="https://bacanika.com/convocatorias" target="_blank">Bacánika</a>
+  </div>
+  <div class="ftxt" style="text-align:right">Radar Creativo Colombia v6.0<br>Audiovisual · Diseño · Fotografía · Artes Visuales</div>
+</footer>
+
+<script>
+// ── CLOCK ──
+function tick(){document.getElementById('clk').textContent=new Date().toLocaleString('es-CO',{weekday:'short',day:'2-digit',month:'short'}).toUpperCase()+' · '+new Date().toLocaleTimeString('es-CO')}
+tick();setInterval(tick,1000);
+
+// ── TABS ──
+function sw(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('panel-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+
+// ── SECOP II ──
+const API='https://www.datos.gov.co/resource/p6dx-8zbt.json';
+const PG=15;
+let pg=1,res=[],tot=0,sm='f',sd='desc';
+let ordenCampo='fecha_de_publicacion_del',ordenDir='DESC';
+let aC=new Set(['audiovisual','produccion video']);
+
+document.querySelectorAll('.chip').forEach(c=>{
+  c.addEventListener('click',()=>{const k=c.dataset.kw;if(aC.has(k)){aC.delete(k);c.classList.remove('on')}else{aC.add(k);c.classList.add('on')}});
+});
+document.getElementById('si').addEventListener('keydown',e=>{if(e.key==='Enter')buscar(1)});
+
+function cuantiaWhere(){
+  const v=document.getElementById('scuantia').value;
+  if(v==='minima')return" AND valor_total_estimado <= 132000000";
+  if(v==='mediana')return" AND valor_total_estimado > 132000000 AND valor_total_estimado <= 1000000000";
+  if(v==='mayor')return" AND valor_total_estimado > 1000000000";
+  return'';
+}
+// Fecha de inicio según el período seleccionado
+function fechaDesde(){
+  const v=document.getElementById('speriodo').value;
+  const hoy=new Date();
+  let d;
+  if(v==='3m'){d=new Date(hoy);d.setMonth(d.getMonth()-3);}
+  else if(v==='1m'){d=new Date(hoy);d.setMonth(d.getMonth()-1);}
+  else if(v==='15d'){d=new Date(hoy);d.setDate(d.getDate()-15);}
+  else{return"2026-01-01T00:00:00.000";} // Todo 2026
+  // No bajar de 2026
+  const min=new Date('2026-01-01');
+  if(d<min)d=min;
+  return d.toISOString().split('T')[0]+'T00:00:00.000';
+}
+// Construye TODO el WHERE con los filtros activos
+function buildWhere(){
+  let w=`fecha_de_publicacion_del >= '${fechaDesde()}'`;
+  w+=cuantiaWhere();
+  // Estado: usamos LIKE flexible (no igualdad exacta) porque el SECOP
+  // escribe los estados con textos variables. "abierto" busca varias fases activas.
+  const est=document.getElementById('sest').value;
+  if(est==='abierto'){
+    // Procesos abiertos = en fase de presentación de ofertas / publicado / convocado
+    w+=` AND (upper(estado_del_procedimiento) like '%PRESENTACI%' OR upper(estado_del_procedimiento) like '%CONVOCAD%' OR upper(estado_del_procedimiento) like '%PUBLICAD%' OR upper(estado_del_procedimiento) like '%ABIERTO%')`;
+  }else if(est==='adjudicado'){
+    w+=` AND upper(estado_del_procedimiento) like '%ADJUDICAD%'`;
+  }else if(est==='desierto'){
+    w+=` AND upper(estado_del_procedimiento) like '%DESIERTO%'`;
+  }
+  const modal=document.getElementById('smodalidad').value;
+  if(modal)w+=` AND upper(modalidad_de_contratacion) like '%${modal.toUpperCase()}%'`;
+  const depto=document.getElementById('sdepto').value;
+  if(depto)w+=` AND (upper(departamento_entidad) like '%${depto.toUpperCase()}%' OR upper(ciudad_entidad) like '%${depto.toUpperCase()}%')`;
+  return w;
+}
+// Orden según el selector
+function buildOrder(){
+  return ordenCampo+' '+ordenDir;
+}
+// Construye la URL CRUDA del SECOP (sin proxy)
+function rawDataURL(p){
+  const txt=document.getElementById('si').value.trim();
+  const terms=[...aC];if(txt)terms.push(txt);
+  const q=terms.length?terms.join(' OR '):'audiovisual';
+  const inner=new URLSearchParams({'$limit':PG,'$offset':(p-1)*PG,'$q':q,'$order':buildOrder(),'$where':buildWhere()});
+  return API+'?'+inner;
+}
+function rawCountURL(){
+  const txt=document.getElementById('si').value.trim();
+  const terms=[...aC];if(txt)terms.push(txt);
+  const q=terms.length?terms.join(' OR '):'audiovisual';
+  const inner=new URLSearchParams({'$select':'count(*) as count','$q':q,'$where':buildWhere()});
+  return API+'?'+inner;
+}
+
+// ── SISTEMA DE PROXIES EN CASCADA ──
+// El navegador no puede llamar directo a datos.gov.co (bloqueo CORS).
+// Probamos varios proxies en orden; si uno falla, pasa al siguiente.
+// El primer intento es DIRECTO (funciona si abres el archivo desde un servidor con CORS abierto).
+const PROXIES=[
+  {name:'directo', build:u=>u, parse:async r=>await r.json()},
+  {name:'corsproxy', build:u=>'https://corsproxy.io/?url='+encodeURIComponent(u), parse:async r=>await r.json()},
+  {name:'codetabs', build:u=>'https://api.codetabs.com/v1/proxy/?quest='+encodeURIComponent(u), parse:async r=>await r.json()},
+  {name:'allorigins', build:u=>'https://api.allorigins.win/get?url='+encodeURIComponent(u), parse:async r=>{const j=await r.json();return JSON.parse(j.contents)}},
+  {name:'corsfix', build:u=>'https://proxy.corsfix.com/?'+u, parse:async r=>await r.json()},
+];
+
+// Intenta una URL cruda a través de los proxies hasta que uno funcione
+async function fetchConProxies(rawUrl,onProxyTry){
+  let lastErr=null;
+  for(let i=0;i<PROXIES.length;i++){
+    const px=PROXIES[i];
+    try{
+      if(onProxyTry)onProxyTry(px.name,i+1,PROXIES.length);
+      const ctrl=new AbortController();
+      const timeout=setTimeout(()=>ctrl.abort(),12000);
+      const r=await fetch(px.build(rawUrl),{signal:ctrl.signal,headers:{'Accept':'application/json'}});
+      clearTimeout(timeout);
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      const data=await px.parse(r);
+      if(!Array.isArray(data))throw new Error('Respuesta no válida');
+      return {data, proxy:px.name};
+    }catch(e){
+      lastErr=e;
+      // sigue con el siguiente proxy
+    }
+  }
+  throw new Error('Todos los proxies fallaron. '+(lastErr?lastErr.message:''));
+}
+
+async function buscar(p=1){
+  pg=p;
+  const btn=document.getElementById('sbtn');
+  btn.classList.add('busy');btn.innerHTML='<div class="spin" style="width:13px;height:13px;margin:0;border-width:2px"></div> BUSCANDO…';
+  showLoad();
+  try{
+    // Buscar datos (con cascada de proxies)
+    const dataRes=await fetchConProxies(rawDataURL(p),(name,n,total)=>{
+      const el=document.getElementById('proxy-status');
+      if(el)el.textContent=`Conectando vía ${name} (${n}/${total})…`;
+    });
+    res=dataRes.data;
+
+    // Buscar conteo (mismo proxy que funcionó, sin bloquear si falla)
+    let countOk=res.length;
+    try{
+      const cntRes=await fetchConProxies(rawCountURL());
+      countOk=parseInt(cntRes.data[0]?.count||res.length,10);
+    }catch(e){countOk=res.length>=PG?res.length+'+':res.length}
+    tot=typeof countOk==='string'?res.length*10:countOk;
+    const totDisplay=typeof countOk==='string'?countOk:countOk.toLocaleString('es-CO');
+
+    document.getElementById('sbar').style.display='flex';
+    document.getElementById('snum').innerHTML=`<strong>${totDisplay}</strong> contratos 2026 — pág. ${p} <span style="color:var(--dm)">· vía ${dataRes.proxy}</span>`;
+    const tcv=typeof countOk==='string'?countOk:(countOk>999?Math.floor(countOk/1000)+'k':countOk);
+    document.getElementById('tc-s').textContent=tcv;
+    document.getElementById('st-secop').textContent=tcv;
+    sRender();rPag();
+  }catch(e){showErr(e.message)}
+  finally{btn.classList.remove('busy');btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>BUSCAR'}
+}
+
+function tSort(m){
+  if(sm===m)sd=sd==='desc'?'asc':'desc';else{sm=m;sd='desc'}
+  document.getElementById('sf').classList.toggle('on',sm==='f');
+  document.getElementById('sv').classList.toggle('on',sm==='v');
+  document.getElementById('sf').textContent=sm==='f'?`Recientes ${sd==='desc'?'↓':'↑'}`:'Recientes';
+  document.getElementById('sv').textContent=sm==='v'?`Mayor valor ${sd==='desc'?'↓':'↑'}`:'Mayor valor';
+  // Ordenamiento en el SERVIDOR (sobre todos los resultados, no solo la página visible)
+  ordenCampo=sm==='f'?'fecha_de_publicacion_del':'valor_total_estimado';
+  ordenDir=sd==='desc'?'DESC':'ASC';
+  buscar(1); // Re-busca con el nuevo orden desde la página 1
+}
+function sRender(){
+  // Los datos ya vienen ordenados del servidor — solo renderiza
+  rCards(res);
+}
+
+function rCards(data){
+  const area=document.getElementById('sr');
+  if(!data||!data.length){area.innerHTML=`<div class="stbox"><div class="sti">🔍</div><div class="stt">Sin resultados en 2026</div><div class="sts">Prueba activando más chips o cambia el estado a "Todos los estados".</div></div>`;return}
+  area.innerHTML='<div class="clist" id="cl"></div>';
+  const list=document.getElementById('cl');
+  let fallidas=0;
+  data.forEach((p,i)=>{
+    try{
+      const d=document.createElement('div');d.className='card';d.style.animationDelay=i*18+'ms';
+      d.innerHTML=mkCard(p);list.appendChild(d);
+    }catch(e){
+      // Si una tarjeta falla, no rompemos toda la página
+      console.warn('Tarjeta omitida por error de datos:',e.message,p);
+      fallidas++;
+    }
+  });
+  if(fallidas>0){
+    const warn=document.createElement('div');
+    warn.style.cssText='font-family:var(--mono);font-size:9px;color:var(--o);text-align:center;padding:10px;border:1px dashed rgba(245,168,56,.3);margin-top:8px';
+    warn.textContent=`⚠ ${fallidas} contrato(s) omitido(s) por datos incompletos de la entidad`;
+    list.appendChild(warn);
+  }
+}
+
+function mkCard(p){
+  const t=esc(p.nombre_del_procedimiento||p.descripcion_del_proceso||'Sin título');
+  const ent=esc(p.nombre_entidad||'—');
+  const est=p.estado_del_procedimiento||'';
+  const fd=fD(p.fecha_de_publicacion_del),fc=fD(p.fecha_de_recepcion_de||p.fecha_limite_recepcion);
+  const val=fV(p.valor_total_estimado||p.precio_base);
+  const mod=esc(p.modalidad_de_contratacion||'');
+  const ciu=esc(p.ciudad_entidad||p.departamento||'');
+  const ref=p.referencia_del_proceso||p.numero_de_constancia||'';
+  // El link correcto viene del campo urlproceso del dataset.
+  // Si no existe, usamos el ID interno real (CO1.REQ...). 
+  // Como último recurso, mandamos al BUSCADOR (no a OpportunityDetail, que da error con la referencia humana).
+  // El campo urlproceso a veces viene como string, a veces como objeto {url, description}.
+  // Extraemos el string de forma segura sin asumir el tipo.
+  function extraerUrl(campo){
+    if(!campo)return'';
+    if(typeof campo==='string')return campo;
+    if(typeof campo==='object'&&campo.url&&typeof campo.url==='string')return campo.url;
+    return'';
+  }
+  const urlProceso=extraerUrl(p.urlproceso)||extraerUrl(p.url_del_proceso)||extraerUrl(p.urlproceso_1);
+  const idInterno=(typeof p.id_del_proceso==='string'?p.id_del_proceso:'')||(typeof p.id_del_portafolio==='string'?p.id_del_portafolio:'');
+  let url, urlDirecto=false;
+  if(urlProceso&&urlProceso.startsWith('http')){
+    url=urlProceso; urlDirecto=true;
+  }else if(idInterno&&idInterno.startsWith('CO1')){
+    url=`https://community.secop.gov.co/Public/Tendering/OpportunityDetail/Index?noticeUID=${encodeURIComponent(idInterno)}&isFromPublicArea=true&isModal=false`;
+    urlDirecto=true;
+  }else{
+    url=`https://community.secop.gov.co/Public/Tendering/ContractNoticeManagement/Index?currentLanguage=es-CO&Page=login&Country=CO&SkinName=CCE`;
+    urlDirecto=false;
+  }
+  const esMinima=parseFloat(p.valor_total_estimado||0)>0&&parseFloat(p.valor_total_estimado||0)<=132000000;
+  const textoParaAnalizar=`CONTRATO SECOP II\nTítulo: ${p.nombre_del_procedimiento||p.descripcion_del_proceso||''}\nEntidad: ${p.nombre_entidad||''}\nEstado: ${est}\nModalidad: ${p.modalidad_de_contratacion||''}\nValor estimado: ${val}\nCiudad: ${ciu}\nFecha publicación: ${fd}\nFecha cierre: ${fc}\nReferencia: ${ref}`;
+
+  return`<div class="ctop">
+    <div class="ctitle">${t}</div>
+    <div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end;flex-shrink:0">
+      ${bH(est)}
+      ${esMinima?'<span class="badge bmin">Mín. cuantía</span>':''}
+    </div>
+  </div>
+  <div class="cmeta">
+    ${fd?`<div class="cm"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${fd}</div>`:''}
+    ${fc?`<div class="cm"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Cierre: ${fc}</div>`:''}
+    ${ciu?`<div class="cm"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>${ciu}</div>`:''}
+    ${mod?`<div class="cm"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16h16V8z"/></svg>${mod}</div>`:''}
+  </div>
+  <div class="cbot">
+    <div><div class="cent">${ent}</div>${ref?`<div class="cent" style="margin-top:2px;color:var(--dm)">Ref: ${esc(ref)}</div>`:''}</div>
+    <div class="cacts">
+      ${val?`<div class="vtag">${val}</div>`:''}
+      <button class="abtn" onclick="abrirModal(\`${textoParaAnalizar.replace(/`/g,"'")}\`)">
+        🧠 Analizar
+      </button>
+      ${ref?`<button class="lbtn" style="border:none;background:none;cursor:pointer" onclick="copiarRef('${esc(ref)}',this)" title="Copiar referencia para pegarla en el buscador">⧉ Ref</button>`:''}
+      <a href="${url}" target="_blank" class="lbtn">${urlDirecto?'Ver proceso':'Buscar en SECOP'} <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+    </div>
+  </div>`;
+}
+
+// Copia la referencia al portapapeles para pegarla en el buscador del SECOP
+function copiarRef(ref,btn){
+  navigator.clipboard.writeText(ref).then(()=>{
+    const orig=btn.innerHTML;
+    btn.innerHTML='✓ Copiada';
+    btn.style.color='var(--g)';
+    setTimeout(()=>{btn.innerHTML=orig;btn.style.color=''},1800);
+  });
+}
+
+function bH(e){if(!e)return'';const l=e.toLowerCase();let c='bc';if(l.includes('convocado')||l.includes('abierto'))c='bo';else if(l.includes('adjudicado'))c='ba';return`<span class="badge ${c}">${esc(e)}</span>`}
+
+function rPag(){
+  const pag=document.getElementById('pag');pag.innerHTML='';
+  // Si la página actual trae PG resultados completos, asumimos que hay más
+  const hayMas=res.length>=PG;
+  const t=Math.max(Math.ceil(tot/PG),hayMas?pg+1:pg);
+  if(t<=1&&!hayMas)return;
+  const mk=(l,p,a=false)=>{const b=document.createElement('button');b.className='pbtn'+(a?' on':'');b.textContent=l;b.onclick=()=>{buscar(p);window.scrollTo({top:0,behavior:'smooth'})};return b};
+  if(pg>1)pag.appendChild(mk('← ANT',pg-1));
+  pR(pg,t).forEach(p=>{if(p==='…'){const s=document.createElement('span');s.className='pbtn';s.textContent='…';s.style.cursor='default';pag.appendChild(s)}else pag.appendChild(mk(p,p,p===pg))});
+  if(hayMas)pag.appendChild(mk('SIG →',pg+1));
+}
+function pR(c,t){if(t<=7)return Array.from({length:t},(_,i)=>i+1);if(c<=4)return[1,2,3,4,5,'…',t];if(c>=t-3)return[1,'…',t-4,t-3,t-2,t-1,t];return[1,'…',c-1,c,c+1,'…',t]}
+function showLoad(){document.getElementById('sr').innerHTML=`<div class="stbox"><div class="spin"></div><div class="stt">Consultando SECOP II 2026</div><div class="sts" id="proxy-status">Conectando con datos.gov.co…</div></div>`;document.getElementById('sbar').style.display='none';document.getElementById('pag').innerHTML=''}
+function showErr(m){
+  const esRed=/proxy|fetch|network|timeout|abort|HTTP|conn/i.test(m);
+  const esBug=/not a function|undefined|null|cannot read/i.test(m);
+  let titulo, sub;
+  if(esBug){
+    titulo='Error al procesar datos';
+    sub=`La API respondió pero algunos datos vinieron en formato inesperado.<br><br><strong style="color:var(--y)">Soluciones:</strong><br>• Recarga la página (F5)<br>• Si persiste, prueba con otros chips de búsqueda<br>• Reporta el error con esta info:<br><br><small style="color:var(--dm)">${esc(m)}</small>`;
+  } else if(esRed){
+    titulo='No se pudo conectar';
+    sub=`Los servidores intermediarios (proxies) están saturados o caídos.<br><br><strong style="color:var(--y)">Soluciones:</strong><br>• Espera 1 minuto y presiona BUSCAR de nuevo<br>• Recarga la página (F5)<br>• Busca directo en <a href="https://community.secop.gov.co" target="_blank">community.secop.gov.co</a><br><br><small style="color:var(--dm)">${esc(m)}</small>`;
+  } else {
+    titulo='Error inesperado';
+    sub=`Algo falló al consultar el SECOP II.<br><br>Intenta de nuevo o busca directo en <a href="https://community.secop.gov.co" target="_blank">community.secop.gov.co</a><br><br><small style="color:var(--dm)">${esc(m)}</small>`;
+  }
+  document.getElementById('sr').innerHTML=`<div class="stbox"><div class="sti">⚠️</div><div class="stt">${titulo}</div><div class="sts">${sub}</div></div>`;
+}
+
+// ── ANALIZADOR ──
+// Perfil pre-cargado de Bushido (solo la primera vez — no sobrescribe si ya guardaste algo)
+const PERFIL_BUSHIDO={
+  'pn':'Bushido',
+  'pt':'juridica',
+  'pd':'producción audiovisual, edición de video, fotografía, podcast documental, cobertura de eventos',
+  'pc':'Bogotá / Cali',
+  'pe':'5+',
+  'pr':'no',
+  'pf-exp':'Producción y cobertura audiovisual para marcas: Cinemark, cubrimiento de conciertos de J Balvin, HYPE SAS, Robusta SAS. Edición de video, fotografía profesional y podcast documental. Fuerte alcance orgánico en video.',
+};
+function precargarBushido(){
+  const yaConfigurado=localStorage.getItem('rc_configurado');
+  if(yaConfigurado)return; // ya usó la app antes, respetamos sus datos
+  Object.entries(PERFIL_BUSHIDO).forEach(([id,val])=>{
+    const el=document.getElementById(id);
+    if(el&&!localStorage.getItem('rc_p_'+id)){el.value=val;localStorage.setItem('rc_p_'+id,val);}
+  });
+  localStorage.setItem('rc_configurado','1');
+}
+
+window.addEventListener('load',()=>{
+  precargarBushido();
+  const k=localStorage.getItem('rc_key');
+  if(k){document.getElementById('ak').value=k;setKeyStatus(true)}
+  ['pn','pt','pd','pc','pe','pr','pf-activos','pf-pasivos','pf-actcorr','pf-pascorr','pf-exp'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    const v=localStorage.getItem('rc_p_'+id);if(v)el.value=v;
+    el.addEventListener('change',()=>localStorage.setItem('rc_p_'+id,el.value));
+  });
+  // Doc chips
+  const savedDocs=JSON.parse(localStorage.getItem('rc_p_docs')||'[]');
+  document.querySelectorAll('.doc-chip').forEach(c=>{
+    if(savedDocs.includes(c.dataset.doc))c.classList.add('on');
+    c.addEventListener('click',()=>{
+      c.classList.toggle('on');
+      const docs=[...document.querySelectorAll('.doc-chip.on')].map(d=>d.dataset.doc);
+      localStorage.setItem('rc_p_docs',JSON.stringify(docs));
+    });
+  });
+});
+function toggleLicit(){
+  const b=document.getElementById('licit-body');
+  const a=document.getElementById('licit-arrow');
+  const open=b.style.display==='none';
+  b.style.display=open?'block':'none';
+  a.style.transform=open?'rotate(90deg)':'rotate(0deg)';
+}
+function saveKey(){
+  const k=document.getElementById('ak').value.trim();
+  if(!k.startsWith('sk-ant')){setKeyStatus(false,'Formato inválido. Debe empezar con sk-ant-api03-');return}
+  localStorage.setItem('rc_key',k);setKeyStatus(true);
+}
+function setKeyStatus(ok,msg){
+  const el=document.getElementById('ks');
+  el.className='key-status '+(ok?'kok':'kno');
+  el.textContent=ok?'✓ API key guardada. Lista para analizar.':(msg||'Sin configurar.');
+}
+function getKey(){return localStorage.getItem('rc_key')||''}
+function num(id){const v=parseFloat((document.getElementById(id).value||'').replace(/[^0-9.]/g,''));return isNaN(v)?0:v}
+function getPerfil(){
+  const docs=[...document.querySelectorAll('.doc-chip.on')].map(d=>d.dataset.doc);
+  const activos=num('pf-activos'),pasivos=num('pf-pasivos'),actCorr=num('pf-actcorr'),pasCorr=num('pf-pascorr');
+  // Índices financieros (los que pide el SECOP)
+  let indices=null;
+  if(activos>0){
+    indices={
+      liquidez: pasCorr>0?(actCorr/pasCorr).toFixed(2):'n/d',
+      endeudamiento: activos>0?((pasivos/activos)*100).toFixed(1)+'%':'n/d',
+      capitalTrabajo: (actCorr-pasCorr),
+    };
+  }
+  return{
+    nombre:document.getElementById('pn').value||'Creativo colombiano',
+    tipo:document.getElementById('pt').value,
+    disciplinas:document.getElementById('pd').value||'audiovisual, fotografía, diseño',
+    ciudad:document.getElementById('pc').value||'Bogotá',
+    exp:document.getElementById('pe').value,
+    rup:document.getElementById('pr').value,
+    financiero:{activos,pasivos,actCorr,pasCorr,indices},
+    experiencia:document.getElementById('pf-exp').value||'',
+    documentos:docs,
+  };
+}
+
+const STEPS_ARR=['Leyendo convocatoria…','Identificando tipo y requisitos…','Evaluando viabilidad…','Generando propuestas narrativas…','Finalizando…'];
+let progTimer=null;
+function startProg(fillId,stepsId,wrapId){
+  const wrap=document.getElementById(wrapId);wrap.classList.add('show');
+  const fill=document.getElementById(fillId);
+  const steps=document.getElementById(stepsId);
+  steps.innerHTML=STEPS_ARR.map((s,i)=>`<div class="pstep" id="${stepsId}-${i}">${s}</div>`).join('');
+  let cur=0,pct=0;
+  document.getElementById(`${stepsId}-0`).className='pstep act';
+  progTimer=setInterval(()=>{
+    pct=Math.min(pct+(Math.random()*9+3),91);
+    const ns=Math.min(Math.floor(pct/20),STEPS_ARR.length-1);
+    if(ns>cur){document.getElementById(`${stepsId}-${cur}`).className='pstep done';cur=ns;document.getElementById(`${stepsId}-${cur}`).className='pstep act';}
+    fill.style.width=pct+'%';
+  },400);
+}
+function stopProg(fillId,stepsId,wrapId){
+  clearInterval(progTimer);
+  document.getElementById(fillId).style.width='100%';
+  STEPS_ARR.forEach((_,i)=>document.getElementById(`${stepsId}-${i}`).className='pstep done');
+  setTimeout(()=>document.getElementById(wrapId).classList.remove('show'),700);
+}
+
+function buildPrompt(texto,perfil){
+  const tieneFinanciero=perfil.financiero&&perfil.financiero.activos>0;
+  const tieneDocs=perfil.documentos&&perfil.documentos.length>0;
+  const haceAptitud=tieneFinanciero||tieneDocs||perfil.experiencia;
+  return`Analiza esta convocatoria para un creativo/empresa colombiana:
+Perfil: ${JSON.stringify(perfil)}
+
+CONVOCATORIA:
+---
+${texto.substring(0,7000)}
+---
+
+Responde SOLO con JSON válido (sin texto extra, sin backticks):
+{
+  "titulo":"nombre",
+  "entidad":"entidad convocante",
+  "tipo":"SECOP_II|cultural_publica|privada|festival|fondo",
+  "disciplinas":["lista"],
+  "puntaje":7,
+  "puntaje_color":"high|mid|low",
+  "recomendacion":"postularse|evaluar|no_aplica",
+  "fecha_cierre":"fecha o 'No especificada'",
+  "valor":"monto o 'No especificado'",
+  "resumen":"2 párrafos claros de qué trata, qué buscan, para quién",
+  "para_quien":"descripción del perfil buscado",
+  "requisitos":[{"nombre":"","descripcion":"qué es y cómo cumplirlo","dificultad":"facil|medio|dificil"}],
+  "aptitud":{
+    "es_apto":"si|parcial|no",
+    "veredicto":"frase directa: ¿puede presentarse o no y por qué?",
+    "documentos_que_tiene":["lista de documentos del perfil que SÍ sirven para esta convocatoria"],
+    "documentos_que_faltan":[{"doc":"nombre","critico":true,"como_conseguirlo":"dónde y cómo tramitarlo"}],
+    "analisis_financiero":"compara la capacidad financiera del perfil (índices de liquidez, endeudamiento, capital de trabajo) contra lo que típicamente exige este tipo de proceso. Si no hay datos financieros, dilo. Sé concreto con los números del perfil.",
+    "experiencia_match":"evalúa si la experiencia del perfil es suficiente o qué tipo de experiencia adicional necesita demostrar",
+    "tiempo_estimado_alistar":"cuánto tiempo le tomaría reunir lo que falta (ej: '2-3 días', '2 semanas por el RUP')"
+  },
+  "viabilidad":{"conclusion":"texto directo","a_favor":["lista"],"en_contra":["lista"]},
+  "propuestas":[
+    {"numero":1,"titulo":"TÍTULO EN MAYÚSCULAS","sinopsis":"2 oraciones","desarrollo":"párrafo con enfoque y narrativa","por_que_aplica":"por qué encaja con la convocatoria y el perfil","formato":"formato específico","tags":["tag1","tag2"]},
+    {"numero":2,"titulo":"...","sinopsis":"...","desarrollo":"...","por_que_aplica":"...","formato":"...","tags":[]},
+    {"numero":3,"titulo":"...","sinopsis":"...","desarrollo":"...","por_que_aplica":"...","formato":"...","tags":[]}
+  ],
+  "alertas":[{"nivel":"critico|importante|info","texto":"descripción"}],
+  "pasos":["paso 1 concreto","paso 2","paso 3"]
+}
+INSTRUCCIONES CLAVE:
+- ${haceAptitud?'El usuario LLENÓ su perfil de licitaciones. Haz el análisis de aptitud COMPLETO y honesto: compara sus documentos, finanzas y experiencia reales contra lo que pide la convocatoria. Si le falta algo crítico, dilo claro. El objetivo es que NO pierda 15 días para que le digan que le faltó un papel.':'El usuario NO llenó datos financieros ni documentos. En "aptitud", pon es_apto:"parcial" y en veredicto invítalo amablemente a llenar el "Perfil para licitaciones públicas" para un análisis real de aptitud. Igual llena requisitos y propuestas normalmente.'}
+- Para análisis financiero: el SECOP suele exigir índice de liquidez ≥ 1.0-1.5, endeudamiento ≤ 50-70%, y capital de trabajo positivo. Compara los números reales del perfil.
+- Las 3 propuestas deben ser diferentes en enfoque y formato, viables para el perfil.
+- Si es SECOP II, identifica la modalidad (mínima cuantía, licitación, concurso de méritos, etc.) y qué implica.
+- Sé honesto. Si no aplica, dilo.`;
+}
+
+async function callClaude(texto,fillId,stepsId,wrapId,resultsId,btnId){
+  const key=getKey();
+  if(!key){alert('Configura tu API key en la pestaña Analizador IA primero.');return}
+  if(texto.trim().length<30){alert('Pega el texto de la convocatoria antes de analizar.');return}
+  const perfil=getPerfil();
+  const btn=document.getElementById(btnId);
+  if(btn){btn.disabled=true;btn.innerHTML='<div class="spin" style="width:16px;height:16px;margin:0;border-width:2px;border-top-color:#fff"></div> ANALIZANDO…'}
+  startProg(fillId,stepsId,wrapId);
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',max_tokens:4000,
+        system:'Eres experto en contratación pública colombiana y convocatorias culturales. Ayudas a creativos (audiovisual, fotografía, diseño, artes visuales) a entender y postularse a oportunidades. Responde SOLO en español colombiano claro. Responde ÚNICAMENTE con JSON válido sin texto adicional ni backticks.',
+        messages:[{role:'user',content:buildPrompt(texto,perfil)}]
+      })
+    });
+    if(!r.ok){const e=await r.json();throw new Error(e.error?.message||'Error '+r.status)}
+    const data=await r.json();
+    let a;
+    try{a=JSON.parse(data.content[0].text)}
+    catch{const m=data.content[0].text.match(/\{[\s\S]*\}/);if(m)a=JSON.parse(m[0]);else throw new Error('Error al parsear respuesta')}
+    stopProg(fillId,stepsId,wrapId);
+    renderAnaResults(a,document.getElementById(resultsId));
+  }catch(e){
+    stopProg(fillId,stepsId,wrapId);
+    document.getElementById(resultsId).innerHTML=`<div style="background:rgba(255,68,85,.07);border:1px solid rgba(255,68,85,.25);padding:16px;font-family:var(--mono);font-size:10px;color:var(--mu);line-height:1.8"><strong style="color:var(--r)">⚠ Error</strong><br>${esc(e.message)}<br><br>Verifica tu API key o recarga la página.</div>`;
+  }finally{if(btn){btn.disabled=false;btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> ANALIZAR CONVOCATORIA'}}
+}
+
+function analizarDirecto(){
+  callClaude(document.getElementById('cta').value,'pf','ps','pw','ana-results','gabtn');
+}
+function analizarDesdeModal(){
+  callClaude(document.getElementById('modal-ta').value,'modal-pf','modal-ps','modal-pw','modal-results','modal-go');
+}
+
+// Modal
+function abrirModal(texto){
+  document.getElementById('modal-ta').value=texto;
+  document.getElementById('modal-results').innerHTML='';
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(e){if(e.target===document.getElementById('modal-overlay'))closeModalBtn()}
+function closeModalBtn(){document.getElementById('modal-overlay').classList.remove('open');document.body.style.overflow=''}
+
+// Analizar desde tarjeta cultural — carga en pestaña analizador
+function analizarCultural(texto){
+  // Cambiar a tab analizador
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('panel-analizador').classList.add('on');
+  document.querySelector('.tab[onclick="sw(\'analizador\',this)"]').classList.add('on');
+  document.getElementById('cta').value=texto;
+  document.getElementById('cta').focus();
+  document.getElementById('cta').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// RENDER RESULTS
+function renderAnaResults(a,container){
+  const sc=a.puntaje_color||'mid';
+  const scCls=sc==='high'?'sh':sc==='low'?'sl':'sm';
+  const rcCls=a.recomendacion==='postularse'?'sb-g':a.recomendacion==='no_aplica'?'sb-r':'sb-o';
+  const rcLbl=a.recomendacion==='postularse'?'✓ Postularse':a.recomendacion==='no_aplica'?'✗ No aplica':'⚠ Evaluar';
+
+  container.innerHTML=`
+    <!-- SCORE -->
+    <div style="background:var(--s2);border:1px solid var(--b1);padding:16px;margin-bottom:10px">
+      <div class="score-wrap">
+        <div class="score-n ${scCls}">${a.puntaje||'?'}<span style="font-size:18px;color:var(--mu)">/10</span></div>
+        <div>
+          <div class="score-info-title">${esc(a.titulo||'Convocatoria')}</div>
+          <div class="score-sub">${esc(a.entidad||'')}${a.valor&&a.valor!='No especificado'?' · '+a.valor:''}</div>
+          <div class="score-sub">${a.fecha_cierre&&a.fecha_cierre!='No especificada'?'Cierre: '+a.fecha_cierre:''}</div>
+          <div class="score-badges">
+            <span class="sbadge ${rcCls}">${rcLbl}</span>
+            ${(a.disciplinas||[]).map(d=>`<span class="sbadge sb-b">${d}</span>`).join('')}
+            <span class="sbadge sb-p">${a.tipo||'convocatoria'}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    ${mkRB('📋','Resumen claro',mkResumenH(a),'res-r',true)}
+    ${a.aptitud?mkRB('🎯','¿Soy apto? Análisis de aptitud',mkAptitudH(a.aptitud),'apt-r',true):''}
+    ${mkRB('✅','Checklist de requisitos',mkChecklistH(a.requisitos||[]),'req-r',false)}
+    ${mkRB('📊','Viabilidad para tu perfil',mkViaH(a.viabilidad||{}),'via-r',false)}
+    ${mkRB('💡','3 Propuestas narrativas',mkPropsH(a.propuestas||[]),'prop-r',true)}
+    ${mkRB('⚠️','Alertas y riesgos',mkAlertasH(a.alertas||[]),'alert-r',false)}
+    ${mkRB('👉','Próximos pasos',mkPasosH(a.pasos||[]),'pasos-r',false)}
+  `;
+
+  container.querySelectorAll('.rb-head').forEach(h=>{
+    h.addEventListener('click',()=>{
+      const b=h.nextElementSibling;const t=h.querySelector('.rb-tog');
+      const o=b.classList.toggle('open');t.textContent=o?'▲':'▼';
+    });
+  });
+  container.querySelectorAll('.cbox').forEach(cb=>{
+    cb.addEventListener('click',()=>{cb.classList.toggle('done');cb.nextElementSibling.classList.toggle('done-txt')});
+  });
+  container.querySelectorAll('.copy-btn').forEach(b=>{
+    b.addEventListener('click',e=>{
+      e.stopPropagation();
+      const el=document.getElementById(b.dataset.t);
+      if(el)navigator.clipboard.writeText(el.innerText).then(()=>{b.textContent='✓ Copiado';b.className='copy-btn ok';setTimeout(()=>{b.textContent='Copiar';b.className='copy-btn'},2000)});
+    });
+  });
+}
+
+function mkRB(icon,title,body,id,openDefault=false){
+  return`<div class="res-block">
+    <div class="rb-head">
+      <span class="rb-icon">${icon}</span>
+      <span class="rb-title">${title}</span>
+      <span class="rb-tog">${openDefault?'▲':'▼'}</span>
+    </div>
+    <div class="rb-body${openDefault?' open':''}">${body}</div>
+  </div>`;
+}
+function mkResumenH(a){
+  return`<div class="rtext">${(a.resumen||'No disponible').split('\n').filter(l=>l.trim()).map(l=>`<p>${l}</p>`).join('')}<p style="margin-top:10px"><em>Para quién es:</em> <strong>${esc(a.para_quien||'—')}</strong></p></div>`;
+}
+function mkChecklistH(reqs){
+  if(!reqs.length)return'<div class="rtext">No se identificaron requisitos específicos.</div>';
+  return`<div class="checklist">${reqs.map(r=>`
+    <div class="ci">
+      <div class="cbox"></div>
+      <div>
+        <div class="ci-label"><strong>${esc(r.nombre)}</strong> — ${esc(r.descripcion)}</div>
+        <div class="ci-diff ${r.dificultad==='facil'?'df':r.dificultad==='dificil'?'dh':'dm2'}">
+          ${r.dificultad==='facil'?'● Fácil':r.dificultad==='dificil'?'● Difícil / posible bloqueante':'● Requiere gestión'}
+        </div>
+      </div>
+    </div>`).join('')}</div>`;
+}
+function mkAptitudH(ap){
+  if(!ap)return'<div class="rtext">No disponible.</div>';
+  const apto=ap.es_apto||'parcial';
+  const aptoColor=apto==='si'?'var(--g)':apto==='no'?'var(--r)':'var(--o)';
+  const aptoBg=apto==='si'?'rgba(56,245,160,.1)':apto==='no'?'rgba(255,68,85,.1)':'rgba(245,168,56,.1)';
+  const aptoLbl=apto==='si'?'✓ APTO PARA PRESENTARSE':apto==='no'?'✗ NO APTO (aún)':'◑ APTO PARCIAL';
+  return`<div>
+    <div style="background:${aptoBg};border:1px solid ${aptoColor};padding:12px;margin-bottom:12px">
+      <div style="font-family:var(--cond);font-size:17px;font-weight:800;color:${aptoColor};margin-bottom:5px">${aptoLbl}</div>
+      <div class="rtext" style="color:var(--tx)">${esc(ap.veredicto||'')}</div>
+      ${ap.tiempo_estimado_alistar?`<div style="font-family:var(--mono);font-size:9px;color:var(--mu);margin-top:7px">⏱ Tiempo estimado para alistar lo que falta: <strong style="color:var(--tx)">${esc(ap.tiempo_estimado_alistar)}</strong></div>`:''}
+    </div>
+    ${ap.documentos_que_tiene?.length?`
+      <div style="margin-bottom:10px">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--g);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">✓ Documentos que ya tienes y sirven</div>
+        ${ap.documentos_que_tiene.map(d=>`<div class="via-item via-g"><span>✓</span>${esc(d)}</div>`).join('')}
+      </div>`:''}
+    ${ap.documentos_que_faltan?.length?`
+      <div style="margin-bottom:10px">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--r);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">✗ Documentos que te faltan</div>
+        ${ap.documentos_que_faltan.map(d=>`<div class="via-item ${d.critico?'via-r':'via-o'}"><span>${d.critico?'🚨':'⚠'}</span><div><strong style="color:var(--tx)">${esc(d.doc)}</strong>${d.critico?' <span style="color:var(--r);font-size:9px">(crítico)</span>':''}<br><span style="color:var(--mu)">${esc(d.como_conseguirlo||'')}</span></div></div>`).join('')}
+      </div>`:''}
+    ${ap.analisis_financiero?`
+      <div style="margin-bottom:10px">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--b);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">💰 Análisis financiero</div>
+        <div class="rtext" style="background:var(--s3);border:1px solid var(--b1);padding:9px 11px">${esc(ap.analisis_financiero)}</div>
+      </div>`:''}
+    ${ap.experiencia_match?`
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--p);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">📋 Experiencia</div>
+        <div class="rtext" style="background:var(--s3);border:1px solid var(--b1);padding:9px 11px">${esc(ap.experiencia_match)}</div>
+      </div>`:''}
+  </div>`;
+}
+function mkViaH(v){
+  if(!v.conclusion)return'<div class="rtext">No disponible.</div>';
+  return`<div>
+    <div class="rtext" style="margin-bottom:12px">${esc(v.conclusion)}</div>
+    ${v.a_favor?.length?`<div style="margin-bottom:9px"><div style="font-family:var(--mono);font-size:9px;color:var(--g);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">✓ A favor</div>${v.a_favor.map(p=>`<div class="via-item via-g"><span>✓</span>${esc(p)}</div>`).join('')}</div>`:''}
+    ${v.en_contra?.length?`<div><div style="font-family:var(--mono);font-size:9px;color:var(--o);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">⚠ En contra</div>${v.en_contra.map(p=>`<div class="via-item via-o"><span>⚠</span>${esc(p)}</div>`).join('')}</div>`:''}
+  </div>`;
+}
+function mkPropsH(props){
+  if(!props.length)return'<div class="rtext">No se generaron propuestas.</div>';
+  const cls=['pc1','pc2','pc3'];
+  return props.map((p,i)=>`
+    <div class="prop-card ${cls[i]||''}" id="pc-${i}">
+      <div class="prop-num">
+        Propuesta ${p.numero||i+1} · ${esc(p.formato||'')}
+        <button class="copy-btn" data-t="pc-${i}">Copiar</button>
+      </div>
+      <div class="prop-title">${esc(p.titulo||'Sin título')}</div>
+      <div class="prop-body"><strong style="color:var(--tx)">Sinopsis:</strong> ${esc(p.sinopsis||'')}</div>
+      <div class="prop-body">${esc(p.desarrollo||'')}</div>
+      <div class="prop-pq"><strong>¿Por qué aplica?</strong> ${esc(p.por_que_aplica||'')}</div>
+      <div class="prop-tags">${(p.tags||[]).map(t=>`<span class="ctag">${t}</span>`).join('')}</div>
+    </div>`).join('');
+}
+function mkAlertasH(alerts){
+  if(!alerts.length)return'<div class="rtext">Sin alertas identificadas.</div>';
+  return alerts.map(a=>`<div class="via-item ${a.nivel==='critico'?'via-r':a.nivel==='importante'?'via-o':'via-g'}"><span>${a.nivel==='critico'?'🚨':a.nivel==='importante'?'⚠️':'ℹ️'}</span>${esc(a.texto)}</div>`).join('');
+}
+function mkPasosH(pasos){
+  if(!pasos.length)return'<div class="rtext">Sin pasos identificados.</div>';
+  return`<div class="steps-list">${pasos.map((p,i)=>`<div class="si2"><span class="step-n">${i+1}.</span>${esc(p)}</div>`).join('')}</div>`;
+}
+
+// ── CULTURAL DATA 2026 ──
+function mkCC(f,i){
+  const bm={open:'cb-o',privado:'cb-priv',proxima:'cb-p',periodic:'cb-pr'};
+  const bc=bm[f.estado]||'cb-cl';
+  const dias=f.fechaCierre?Math.ceil((new Date(f.fechaCierre)-new Date())/(86400000)):null;
+  let diasHtml='';
+  if(dias!==null){
+    if(dias<0)diasHtml=`<span class="badge bc">Cerrada</span>`;
+    else if(dias<=5)diasHtml=`<span class="dias-r">⚡ ${dias} días</span>`;
+    else if(dias<=15)diasHtml=`<span class="dias-o">⚠ ${dias} días</span>`;
+    else diasHtml=`<span class="dias-g">${dias} días</span>`;
+  }
+  const textoAnalisis=`CONVOCATORIA: ${f.title}\nORGANIZACIÓN: ${f.org}\nDESCRIPCIÓN: ${f.desc}\nREQUISITOS/TAGS: ${f.tags.join(', ')}\nVALOR/PREMIO: ${f.val||'No especificado'}\nFECHA: ${f.fechaDisplay}\nURL: ${f.url}`;
+
+  return`<a class="ccard" data-cat="${f.cat}" data-s="${f.estado}" href="${f.url}" target="_blank" style="animation-delay:${i*20}ms">
+    <div class="cc-top">
+      <div style="display:flex;gap:8px;align-items:flex-start;flex:1">
+        <div class="cc-ico">${f.icon}</div>
+        <div><div class="cc-title">${f.title}</div><div class="cc-org">${f.org}</div></div>
+      </div>
+      <span class="badge cbadge ${bc}">${f.stxt.split(' ')[0]}</span>
+    </div>
+    <div class="cc-desc">${f.desc}</div>
+    <div class="cc-tags">${f.tags.map(t=>`<span class="ctag">${t}</span>`).join('')}</div>
+    <div class="cc-foot">
+      <div>${f.val?`<div class="cc-val">${f.val}</div>`:''}<div class="cc-fecha">${f.fechaDisplay}</div>${diasHtml?`<div style="margin-top:3px">${diasHtml}</div>`:''}</div>
+      <span class="cc-lnk" onclick="event.preventDefault();event.stopPropagation();analizarCultural(\`${textoAnalisis.replace(/`/g,"'")}\`)" style="color:var(--p)">🧠 Analizar</span>
+    </div>
+    <button class="analyze-card-btn" onclick="event.preventDefault();event.stopPropagation();analizarCultural(\`${textoAnalisis.replace(/`/g,"'")}\`)">
+      🧠 Analizar con IA — Requisitos + 3 Propuestas narrativas
+    </button>
+  </a>`;
+}
+
+function ff(cat,btn,panel){
+  document.querySelectorAll(`#panel-${panel} .fc`).forEach(c=>c.classList.remove('fon'));
+  btn.classList.add('fon');
+  const prefix=panel==='pub'?'g-pub':('g-'+panel);
+  document.querySelectorAll(`#${prefix} .ccard`).forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat||c.dataset.s===cat)?'flex':'none'});
+}
+
+// DATA
+const PUB=[
+  {icon:'🎬',title:'SmartFilms 2026',org:'MinTIC + Canal Trece',cat:'av',desc:'+$100M en premios. Cat. Profesional ($35M), RedvolTIC, Incluyente, Etnias, LGBTIQ+ ($25M c/u). Cine con celular. Para toda Colombia.',tags:['Celular','Festival','$100M+','Profesional','Abierto a todos'],val:'$100M+ en premios',estado:'open',stxt:'● Abierto',fechaCierre:'2026-06-22',fechaDisplay:'Cierre: 22 jun 2026',url:'https://www.smartfilms.com.co'},
+  {icon:'🎞',title:'FDC Fase III — Producción 2026',org:'Proimágenes Colombia · CNACC',cat:'cine',desc:'$17.575M para producción, realización y posproducción. 27 modalidades: largometraje, documental, animación, cortometraje. Solo colombianos.',tags:['Producción','Posproducción','$17.575M','Documental','Animación'],val:'$17.575M',estado:'open',stxt:'● Abierto',fechaCierre:'2026-07-26',fechaDisplay:'Cierre: 26 jul 2026',url:'https://www.convocatoriafdc.com'},
+  {icon:'🎞',title:'FDC Automáticos 2026',org:'Proimágenes Colombia · CNACC',cat:'cine',desc:'Distribución, taquilla, festivales. Sin concurso — por desempeño. Abierto todo el año.',tags:['Distribución','Taquilla','Festivales','Automático'],val:'Parte de $20.612M',estado:'open',stxt:'● Todo el año',fechaCierre:'2026-12-11',fechaDisplay:'Cierre: 11 dic 2026',url:'https://www.convocatoriafdc.com'},
+  {icon:'🏙',title:'IDARTES PDE 2026 — Audiovisual',org:'Instituto Distrital de las Artes · Bogotá',cat:'av',desc:'15 convocatorias: cortometraje, documental, animación, curaduría, no ficción, preservación, videoarte. Para residentes en Bogotá. $367M en audiovisual.',tags:['Bogotá','15 convocatorias','Cortometraje','Documental','Animación'],val:'$367M audiovisual',estado:'open',stxt:'● Múltiples ventanas',fechaCierre:null,fechaDisplay:'Ver CultuRed de IDARTES',url:'https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026'},
+  {icon:'🎪',title:'Premio Filminuto 2026',org:'Cinemateca de Bogotá · IDARTES',cat:'av',desc:'26 estímulos de $3.200.000 para videos de 1 minuto. Temática libre. La más accesible del PDE. Bogotá.',tags:['Bogotá','1 minuto','26 estímulos','Accesible','$3,2M c/u'],val:'$83,2M (26 × $3,2M)',estado:'open',stxt:'● Abierto',fechaCierre:'2026-06-11',fechaDisplay:'Cierre: 11 jun 2026',url:'https://cinematecadebogota.gov.co/convocatorias'},
+  {icon:'🏛',title:'Concertación Cultural 2026',org:'MinCulturas — SINAC',cat:'av',desc:'Para entidades legalmente constituidas: ONGs, colectivos, organizaciones. Financia proyectos audiovisuales de circulación y producción.',tags:['Entidades','ONGs','Nacional','Circulación','Producción'],val:'Parte de $175.000M',estado:'open',stxt:'● Abierto',fechaCierre:'2026-09-12',fechaDisplay:'Cierre: 12 sep 2026',url:'https://concertacion.mincultura.gov.co'},
+  {icon:'📷',title:'Premio Video FUGA 2026',org:'Fundación Gilberto Alzate Avendaño · Bogotá',cat:'foto',desc:'26 estímulos de $3.200.000 para video sobre el centro de Bogotá (Candelaria, Santa Fe, Mártires). Identidad cultural y oficios.',tags:['Video','Bogotá','Centro','$3,2M c/u','26 estímulos'],val:'$83,2M (26 × $3,2M)',estado:'open',stxt:'● Abierto',fechaCierre:'2026-06-11',fechaDisplay:'Cierre: 11 jun 2026',url:'https://www.fuga.gov.co'},
+  {icon:'📸',title:'Premio Fotografía FUGA 2026',org:'Fundación Gilberto Alzate Avendaño · Bogotá',cat:'foto',desc:'26 estímulos de $3.200.000. Serie de 5 fotos sobre pluriculturalidad en La Candelaria, Santa Fe y Los Mártires. Categorías: gastronomía y sabores migrantes.',tags:['Fotografía','Bogotá','Serie 5 fotos','Centro histórico'],val:'$83,2M (26 × $3,2M)',estado:'open',stxt:'◑ Verificar prórroga',fechaCierre:null,fechaDisplay:'Cerró may 13 — verificar',url:'https://www.fuga.gov.co'},
+  {icon:'🎨',title:'Artes Plásticas y Visuales FUGA 2026',org:'Fundación Gilberto Alzate Avendaño · Bogotá',cat:'visual',desc:'17 estímulos: Beca Investigación creación artística ($30.1M), Premio Fanzine, convocatorias Bronx y memorias del conflicto.',tags:['Artes plásticas','Investigación','Fanzine','Bogotá','$30M beca'],val:'$182M total portafolio',estado:'open',stxt:'◑ Verificar ventanas',fechaCierre:null,fechaDisplay:'Ver fuga.gov.co',url:'https://www.fuga.gov.co'},
+  {icon:'🔬',title:'Arte, Ciencia y Tecnología — IDARTES',org:'IDARTES · Bogotá',cat:'visual',desc:'CK:WEB: proyectos sonoros y audiovisuales experimentales, $21M. Laboratorios arte-ciencia-tecnología. Para artistas con experiencia en nuevos medios.',tags:['Arte+tecnología','Experimental','Bogotá','$21M','Nuevos medios'],val:'$21M (3 × $7M)',estado:'open',stxt:'◑ Segunda ventana posible',fechaCierre:null,fechaDisplay:'Segunda ventana — verificar',url:'https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026'},
+  {icon:'🏛',title:'IDARTES PDE — Artes Visuales 2026',org:'IDARTES · Bogotá',cat:'visual',desc:'Residencias, becas de creación, investigación y circulación para artistas visuales bogotanos. Parte del PDE 2026.',tags:['Bogotá','Residencia','Creación','Circulación','Investigación'],val:'Parte de $6.700M',estado:'open',stxt:'● Múltiples ventanas',fechaCierre:null,fechaDisplay:'Ver CultuRed de IDARTES',url:'https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026'},
+  {icon:'🖼',title:'ARTBO Artecámara 2026',org:'ARTBO · Cámara de Comercio Bogotá',cat:'diseño',desc:'Artistas visuales emergentes en la Feria Internacional de Arte de Bogotá. Todas las disciplinas: foto, video, instalación, dibujo, diseño. Obras desde 2021.',tags:['ARTBO','Emergente','Arte contemporáneo','Feria','Internacional'],val:'Visibilidad + mercado',estado:'open',stxt:'◑ Verificar próxima ed.',fechaCierre:null,fechaDisplay:'Fue: mar 6 – abr 30 de 2026',url:'https://www.artbo.co'},
+];
+
+const PRIV=[
+  {icon:'🎬',title:'SmartFilms 2026',org:'MinTIC + Canal Trece · Festival nacional',cat:'av',desc:'+$100M premios. 12ª edición. Categoría Profesional ($35M, máx 7 min) + 4 categorías MinTIC ($25M c/u). Abierto a toda Colombia.',tags:['Celular','Profesional','$100M+','Nacional','Todo Colombia'],val:'$100M+ en premios',estado:'open',stxt:'● Abierto',fechaCierre:'2026-06-22',fechaDisplay:'Cierre: 22 jun 2026',url:'https://www.smartfilms.com.co'},
+  {icon:'🖌',title:'Salón Visual Bacánika 2026',org:'Revista Bacánika · Colsanitas',cat:'visual',desc:'80 obras para exposición en Bogotá y Comfama Medellín. Ilustradores, dibujantes y artistas visuales residentes en Colombia. Piezas 50×70cm verticales, técnica libre.',tags:['Ilustración','Dibujo','Arte visual','80 obras','Colombia'],val:'Premio + exposición',estado:'open',stxt:'● Abierto',fechaCierre:'2026-06-05',fechaDisplay:'Cierre: 5 jun 2026',url:'https://bacanika.com/articulo/salon-visual-bacanika'},
+  {icon:'🏛',title:'ARTBO Artecámara 2026',org:'Cámara de Comercio de Bogotá',cat:'visual',desc:'Artistas visuales emergentes en la Feria Internacional de Arte. Selección curatorial. Visibilidad ante coleccionistas internacionales.',tags:['Feria arte','Emergente','Internacional','CCB'],val:'Visibilidad + ventas',estado:'privado',stxt:'◑ Cerró abr 30',fechaCierre:null,fechaDisplay:'Fue: mar 6 – abr 30',url:'https://www.artbo.co'},
+  {icon:'📸',title:'Formas de Habitar — Comfama',org:'Comfama · Cultura Hábitat',cat:'foto',desc:'Primer concurso de fotografía de Comfama sobre formas de vivir en Antioquia. Hábitos cotidianos y comunidad. Para fotógrafos de Antioquia.',tags:['Fotografía','Antioquia','Comfama','Comunidad'],val:'Ver bases',estado:'privado',stxt:'◑ Cerró may 17',fechaCierre:null,fechaDisplay:'Cerró: 17 may 2026',url:'https://www.comfama.com'},
+  {icon:'💡',title:'BAM Stories — Guiones 2026',org:'Bogotá Audiovisual Market · CCB',cat:'av',desc:'Para guionistas colombianos con proyectos de ficción para largometraje o series. Citas uno a uno con productores y ejecutivos internacionales.',tags:['Guion','Ficción','Mercado','Industria','Internacional'],val:'Agenda industria',estado:'privado',stxt:'● Activo',fechaCierre:null,fechaDisplay:'bogotamarket.com',url:'https://www.bogotamarket.com'},
+  {icon:'📷',title:'Postales de Colombia 2026',org:'Zona Cinco · Escuela Cine y Fotografía',cat:'foto',desc:'13ª edición cerró. Miniserie de 3 fotografías sobre retratos, oficios y territorios. Premio: $12.465.190.',tags:['Fotografía','Retrato','Serie','Instagram','$12,4M 1er lugar'],val:'$12,4M 1er puesto',estado:'privado',stxt:'◑ Cerró feb 2026',fechaCierre:null,fechaDisplay:'Cerró feb 10 de 2026',url:'https://zonacincobogota.com'},
+  {icon:'🎞',title:'Festival Animación Comfama',org:'Comfama · 3ª edición',cat:'av',desc:'Festival de animación en Medellín. Tercera edición fue mar 12-15 de 2026. Próxima convocatoria para nueva edición.',tags:['Animación','Medellín','Comfama','Festival'],val:'Ver bases',estado:'privado',stxt:'○ Próxima edición',fechaCierre:null,fechaDisplay:'Festival: mar 12-15 de 2026',url:'https://www.comfama.com'},
+  {icon:'🎬',title:'SmartFilms Bogotá-Región',org:'SmartFilms + Cámara Comercio Bogotá',cat:'av',desc:'Modalidad empresarial: cortometrajes sobre negocios bogotanos. Para empresas con matrícula CCB renovada. Sin costo.',tags:['Empresarial','Bogotá','CCB','Sin costo'],val:'Sin costo',estado:'privado',stxt:'◑ Cerró abr 30',fechaCierre:null,fechaDisplay:'Cerró: 30 abr 2026',url:'https://www.ccb.org.co'},
+];
+
+const INTER=[
+  {icon:'🏆',title:'Hubert Bals Fund — IFFR Rotterdam',org:'Festival Internacional Cine Rotterdam',cat:'av',desc:'Para cine de países en desarrollo. Colombia elegible. Guion, desarrollo, producción y posproducción. Dos ventanas al año.',tags:['Europa','Colombia elegible','Producción','Guion','Dos ventanas'],val:'Ver convocatoria EUR',estado:'proxima',stxt:'◑ Dos ventanas/año',fechaCierre:null,fechaDisplay:'iffr.com/hubert-bals-fund',url:'https://iffr.com/en/professionals/funds/hubert-bals-fund'},
+  {icon:'🤝',title:'Ibermedia 2026',org:'Programa Iberoamericano',cat:'av',desc:'Coproducción, desarrollo, distribución y formación. Colombia es país miembro — acceso preferencial. Múltiples convocatorias escalonadas.',tags:['Iberoamérica','Colombia miembro','Coproducción','Múltiples líneas'],val:'Varias convocatorias',estado:'open',stxt:'● Activo 2026',fechaCierre:null,fechaDisplay:'programaibermedia.com',url:'https://www.programaibermedia.com'},
+  {icon:'🎪',title:'Doc Society — Good Pitch',org:'Doc Society International',cat:'av',desc:'Conecta documentalistas con financiadores internacionales, ONGs y medios globales. Impacto social. Pitching real.',tags:['Documental','Pitch','Impacto social','Financiación'],val:'Pitch + financiación',estado:'proxima',stxt:'◑ Por proyecto',fechaCierre:null,fechaDisplay:'docsociety.org',url:'https://docsociety.org'},
+  {icon:'🌐',title:'Sundance Documentary Fund',org:'Sundance Institute USA',cat:'av',desc:'Apoya documentales latinoamericanos. Grants para desarrollo y producción. Dos convocatorias al año. Voces subrepresentadas.',tags:['USA','Documental','Grant','Latinoamérica'],val:'Grants USD',estado:'proxima',stxt:'◑ Dos ventanas/año',fechaCierre:null,fechaDisplay:'sundance.org/documentary-program',url:'https://www.sundance.org/programs/documentary-film-program'},
+  {icon:'📸',title:'Sony Future Filmmakers Awards',org:'Sony · Worldphoto',cat:'av',desc:'Fotografía y cine. Jóvenes y estudiantes. Los elegidos viajan a Los Ángeles con talleres en Sony Pictures y gala de premiación.',tags:['Sony','Fotografía','Cine','Jóvenes','LA'],val:'Viaje + gala',estado:'proxima',stxt:'◑ Próxima edición',fechaCierre:null,fechaDisplay:'worldphoto.org',url:'https://www.worldphoto.org'},
+  {icon:'🇫🇷',title:'Fondo Francófono Audiovisual',org:'OIF — Organización de la Francofonía',cat:'av',desc:'Coproducciones con países francófonos. Colombia puede participar como coproductor. Documentales y ficción.',tags:['Francia','Coproducción','Francofonía','Documental'],val:'Ver bases',estado:'proxima',stxt:'○ Anual',fechaCierre:null,fechaDisplay:'francophonie.org',url:'https://www.francophonie.org'},
+];
+
+const FUENTES=[
+  {icon:'📡',name:'SINAC — MinCulturas',desc:'Hub oficial de TODAS las convocatorias del Ministerio. Becas, premios, residencias. $175.000M en 2026. Revísalo cada lunes.',badge:'Público · Nacional',badgeCls:'cb-o',url:'https://sistemaconvocatorias.mincultura.gov.co'},
+  {icon:'🎬',name:'IDARTES — CultuRed 2026',desc:'98 convocatorias anuales para Bogotá. Audiovisual, visuales, diseño, tecnología. $6.700M. Ventanas abren sin aviso.',badge:'Público · Distrital',badgeCls:'cb-o',url:'https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026'},
+  {icon:'🖌',name:'Bacánika — Convocatorias',desc:'La mejor fuente privada para el sector creativo colombiano. Ilustración, diseño, fotografía, arte. Actualiza frecuentemente.',badge:'Privado · Revista',badgeCls:'cb-priv',url:'https://bacanika.com/convocatorias'},
+  {icon:'🌐',name:'Recursos Culturales',desc:'Portal internacional: cine, fotografía, diseño, artes plásticas, residencias. Colombia y el mundo.',badge:'Privado · Internacional',badgeCls:'cb-priv',url:'https://www.recursosculturales.com/secciones/concursos-premios/'},
+  {icon:'🎞',name:'Proimágenes — FDC y más',desc:'Todo el cine colombiano: FDC, BAM, festivales, Film Commission. Fuente primaria para el sector cinematográfico.',badge:'Público · Cine',badgeCls:'cb-o',url:'https://www.proimagenescolombia.com'},
+];
+
+// ── RENDER ──
+function renderPub(){
+  const secs=[
+    {key:'av',label:'Audiovisual & Cine',emoji:'🎬'},
+    {key:'foto',label:'Fotografía & Video',emoji:'📸'},
+    {key:'visual',label:'Artes Visuales & Plásticas',emoji:'🎨'},
+    {key:'diseño',label:'Diseño & Arte Contemporáneo',emoji:'✏️'},
+  ];
+  const g=document.getElementById('g-pub');g.innerHTML='';
+  secs.forEach(s=>{
+    const items=PUB.filter(f=>f.cat===s.key);
+    if(!items.length)return;
+    const d=document.createElement('div');
+    d.innerHTML=`<div class="sec-head"><h2>${s.emoji} ${s.label}</h2><div class="shline"></div><span class="shc">${items.length}</span></div><div class="cgrid" data-sec="${s.key}">${items.map((f,i)=>mkCC(f,i)).join('')}</div>`;
+    g.appendChild(d);
+  });
+}
+function renderGrid(data,gid){const g=document.getElementById(gid);if(g)g.innerHTML=data.map((f,i)=>mkCC(f,i)).join('')}
+function renderFuentes(){
+  const g=document.getElementById('g-fuentes');if(!g)return;
+  g.innerHTML=FUENTES.map(f=>`<a class="fsrc" href="${f.url}" target="_blank"><div class="fsrc-l"><div class="fsrc-name">${f.icon} ${f.name}</div><div class="fsrc-desc">${f.desc}</div></div><div class="fsrc-r"><span class="badge cbadge ${f.badgeCls}">${f.badge}</span><span class="fsrc-lnk">Ir <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></div></a>`).join('');
+}
+
+renderPub();renderGrid(PRIV,'g-priv');renderGrid(INTER,'g-inter');renderFuentes();
+
+// utils
+function fD(s){if(!s)return'';try{const d=new Date(s);if(isNaN(d))return s;return d.toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric'})}catch{return s}}
+function fV(v){if(!v||v==='0')return'';const n=parseFloat(v);if(isNaN(n)||n===0)return'';if(n>=1e9)return'$'+(n/1e9).toFixed(1)+'B';if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';if(n>=1e3)return'$'+(n/1e3).toFixed(0)+'K';return'$'+n.toLocaleString('es-CO')}
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+</script>
+</body>
+</html>

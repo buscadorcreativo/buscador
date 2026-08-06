@@ -1,0 +1,28 @@
+{
+  "ultimoBarrido": "2026-08-06",
+  "convocatorias": [
+    {"fuente":"SmartFilms","titulo":"SmartFilms 2026","estado":"abierto","cierre":"2026-06-22","url":"https://www.smartfilms.com.co"},
+    {"fuente":"FDC","titulo":"FDC Fase III — Producción 2026","estado":"abierto","cierre":"2026-07-26","url":"https://www.convocatoriafdc.com"},
+    {"fuente":"IDARTES","titulo":"IDARTES PDE 2026 — Audiovisual","estado":"abierto","cierre":null,"url":"https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026"},
+    {"fuente":"IDARTES","titulo":"Premio Filminuto 2026","estado":"abierto","cierre":"2026-06-11","url":"https://cinematecadebogota.gov.co/convocatorias"},
+    {"fuente":"MinCulturas","titulo":"Concertación Cultural 2026","estado":"abierto","cierre":"2026-09-12","url":"https://concertacion.mincultura.gov.co"},
+    {"fuente":"FUGA","titulo":"Premio Video FUGA 2026","estado":"abierto","cierre":"2026-06-11","url":"https://www.fuga.gov.co"},
+    {"fuente":"FUGA","titulo":"Premio Fotografía FUGA 2026","estado":"verificar","cierre":null,"url":"https://www.fuga.gov.co"},
+    {"fuente":"FUGA","titulo":"Artes Plásticas y Visuales FUGA 2026","estado":"abierto","cierre":null,"url":"https://www.fuga.gov.co"},
+    {"fuente":"IDARTES","titulo":"Arte, Ciencia y Tecnología — IDARTES","estado":"verificar","cierre":null,"url":"https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026"},
+    {"fuente":"ARTBO","titulo":"ARTBO Artecámara 2026","estado":"verificar","cierre":null,"url":"https://www.artbo.co"},
+    {"fuente":"Bacánika","titulo":"Salón Visual Bacánika 2026","estado":"abierto","cierre":"2026-06-05","url":"https://bacanika.com/articulo/salon-visual-bacanika"},
+    {"fuente":"Comfama","titulo":"Formas de Habitar — Comfama","estado":"cerrado","cierre":"2026-05-17","url":"https://www.comfama.com"},
+    {"fuente":"BAM","titulo":"BAM Stories — Guiones 2026","estado":"activo","cierre":null,"url":"https://www.bogotamarket.com"},
+    {"fuente":"Zona Cinco","titulo":"Postales de Colombia 2026","estado":"cerrado","cierre":"2026-02-10","url":"https://zonacincobogota.com"},
+    {"fuente":"Comfama","titulo":"Festival Animación Comfama","estado":"proxima","cierre":null,"url":"https://www.comfama.com"},
+    {"fuente":"SmartFilms","titulo":"SmartFilms Bogotá-Región","estado":"cerrado","cierre":"2026-04-30","url":"https://www.ccb.org.co"},
+    {"fuente":"Ibermedia","titulo":"Ibermedia 2026","estado":"activo","cierre":null,"url":"https://www.programaibermedia.com"},
+    {"fuente":"IFFR","titulo":"Hubert Bals Fund — IFFR Rotterdam","estado":"proxima","cierre":null,"url":"https://iffr.com/en/professionals/funds/hubert-bals-fund"},
+    {"fuente":"Doc Society","titulo":"Doc Society — Good Pitch","estado":"proxima","cierre":null,"url":"https://docsociety.org"},
+    {"fuente":"Sundance","titulo":"Sundance Documentary Fund","estado":"proxima","cierre":null,"url":"https://www.sundance.org/programs/documentary-film-program"},
+    {"fuente":"Sony","titulo":"Sony Future Filmmakers Awards","estado":"proxima","cierre":null,"url":"https://www.worldphoto.org"},
+    {"fuente":"OIF","titulo":"Fondo Francófono Audiovisual","estado":"proxima","cierre":null,"url":"https://www.francophonie.org"},
+    {"fuente":"FDC","titulo":"FDC Automáticos 2026","estado":"abierto","cierre":"2026-12-11","url":"https://www.convocatoriafdc.com"}
+  ]
+}
