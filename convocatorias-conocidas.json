@@ -1,17 +1,17 @@
 {
-  "ultimoBarrido": "2026-08-06",
+  "ultimoBarrido": "2026-08-15",
   "convocatorias": [
-    {"fuente":"SmartFilms","titulo":"SmartFilms 2026","estado":"abierto","cierre":"2026-06-22","url":"https://www.smartfilms.com.co"},
-    {"fuente":"FDC","titulo":"FDC Fase III — Producción 2026","estado":"abierto","cierre":"2026-07-26","url":"https://www.convocatoriafdc.com"},
-    {"fuente":"IDARTES","titulo":"IDARTES PDE 2026 — Audiovisual","estado":"abierto","cierre":null,"url":"https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026"},
-    {"fuente":"IDARTES","titulo":"Premio Filminuto 2026","estado":"abierto","cierre":"2026-06-11","url":"https://cinematecadebogota.gov.co/convocatorias"},
+    {"fuente":"SmartFilms","titulo":"SmartFilms 2026","estado":"cerrado","cierre":"2026-06-22","url":"https://www.smartfilms.com.co"},
+    {"fuente":"FDC","titulo":"FDC Fase III — Producción 2026","estado":"cerrado","cierre":"2026-07-26","url":"https://www.convocatoriafdc.com"},
+    {"fuente":"IDARTES","titulo":"IDARTES PDE 2026 — Audiovisual","estado":"verificar","cierre":null,"url":"https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026"},
+    {"fuente":"IDARTES","titulo":"Premio Filminuto 2026","estado":"cerrado","cierre":"2026-06-11","url":"https://cinematecadebogota.gov.co/convocatorias"},
     {"fuente":"MinCulturas","titulo":"Concertación Cultural 2026","estado":"abierto","cierre":"2026-09-12","url":"https://concertacion.mincultura.gov.co"},
-    {"fuente":"FUGA","titulo":"Premio Video FUGA 2026","estado":"abierto","cierre":"2026-06-11","url":"https://www.fuga.gov.co"},
+    {"fuente":"FUGA","titulo":"Premio Video FUGA 2026","estado":"cerrado","cierre":"2026-06-11","url":"https://www.fuga.gov.co"},
     {"fuente":"FUGA","titulo":"Premio Fotografía FUGA 2026","estado":"verificar","cierre":null,"url":"https://www.fuga.gov.co"},
-    {"fuente":"FUGA","titulo":"Artes Plásticas y Visuales FUGA 2026","estado":"abierto","cierre":null,"url":"https://www.fuga.gov.co"},
+    {"fuente":"FUGA","titulo":"Artes Plásticas y Visuales FUGA 2026","estado":"verificar","cierre":null,"url":"https://www.fuga.gov.co"},
     {"fuente":"IDARTES","titulo":"Arte, Ciencia y Tecnología — IDARTES","estado":"verificar","cierre":null,"url":"https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026"},
     {"fuente":"ARTBO","titulo":"ARTBO Artecámara 2026","estado":"verificar","cierre":null,"url":"https://www.artbo.co"},
-    {"fuente":"Bacánika","titulo":"Salón Visual Bacánika 2026","estado":"abierto","cierre":"2026-06-05","url":"https://bacanika.com/articulo/salon-visual-bacanika"},
+    {"fuente":"Bacánika","titulo":"Salón Visual Bacánika 2026","estado":"cerrado","cierre":"2026-06-05","url":"https://bacanika.com/articulo/salon-visual-bacanika"},
     {"fuente":"Comfama","titulo":"Formas de Habitar — Comfama","estado":"cerrado","cierre":"2026-05-17","url":"https://www.comfama.com"},
     {"fuente":"BAM","titulo":"BAM Stories — Guiones 2026","estado":"activo","cierre":null,"url":"https://www.bogotamarket.com"},
     {"fuente":"Zona Cinco","titulo":"Postales de Colombia 2026","estado":"cerrado","cierre":"2026-02-10","url":"https://zonacincobogota.com"},
@@ -23,6 +23,13 @@
     {"fuente":"Sundance","titulo":"Sundance Documentary Fund","estado":"proxima","cierre":null,"url":"https://www.sundance.org/programs/documentary-film-program"},
     {"fuente":"Sony","titulo":"Sony Future Filmmakers Awards","estado":"proxima","cierre":null,"url":"https://www.worldphoto.org"},
     {"fuente":"OIF","titulo":"Fondo Francófono Audiovisual","estado":"proxima","cierre":null,"url":"https://www.francophonie.org"},
-    {"fuente":"FDC","titulo":"FDC Automáticos 2026","estado":"abierto","cierre":"2026-12-11","url":"https://www.convocatoriafdc.com"}
+    {"fuente":"FDC","titulo":"FDC Automáticos 2026","estado":"abierto","cierre":"2026-12-11","url":"https://www.convocatoriafdc.com"},
+    {"fuente":"MinTIC","titulo":"Abre Cámara 2026","estado":"cerrado","cierre":"2026-05-07","url":"https://mintic.gov.co/micrositios/convocatoriastv2026/","valor":"$15,300M","viabilidad":"alta","notas":"65 proyectos audiovisuales, 6 categorías. Anual — monitorear apertura 2027"},
+    {"fuente":"Canal Capital","titulo":"Canal Capital CP-004-2026 — Series TV","estado":"verificar","cierre":null,"url":"https://www.canalcapital.gov.co/actualidad/canal-capital-abre-convocatoria-publica-para-produccion-de-contenidos-2/","valor":"$2,442M","viabilidad":"alta","notas":"3 series: ficción, no ficción con IA, animación infantil"},
+    {"fuente":"MinCulturas","titulo":"Encuentros 2026 — FICCI","estado":"cerrado","cierre":"2026-01-18","url":"https://www.mincultura.gov.co/direcciones/audiovisuales-cine-y-medios-interactivos/Paginas/programas-y-proyectos/encuentros/encuentros-2026.aspx","viabilidad":"media","notas":"Ficción/animación largometraje en desarrollo. Pitch en FICCI 65"},
+    {"fuente":"SCRD","titulo":"Experiencia Audiovisual Inmersiva — SCRD + Proimágenes","estado":"cerrado","cierre":"2026-03-19","url":"https://bogota.gov.co/mi-ciudad/cultura-recreacion-y-deporte/convocatoria-en-bogota-audiovisual-e-inmersiva-marzo-de-2026","valor":"$260M","viabilidad":"alta","notas":"Producción inmersiva Bogotá"},
+    {"fuente":"Comisión Fílmica","titulo":"Comisión Fílmica — Mercados Internacionales 2026","estado":"abierta","cierre":null,"url":"https://comisionfilmicacolombia.com/convocatorias/","viabilidad":"media","notas":"Apoyos Ley 1556 para asistir a mercados audiovisuales internacionales"},
+    {"fuente":"Cali Distrito Cultural","titulo":"Estímulos Cali 2026 — Ciclo 2 Audiovisual","estado":"cerrado","cierre":null,"url":"https://www.culturaenlineacali.com/convocatorias/02-convocatoria-estimulos-cali-2026-ciclo-2","valor":"$1,150M","viabilidad":"alta","notas":"Postproducción largometraje, mentorías animación, laboratorio media arts. Monitorear Ciclo 3"},
+    {"fuente":"Cúcuta","titulo":"Programa Municipal Cultura Cúcuta 2026","estado":"abierto","cierre":"2026-09-07","url":"https://pagina-web-cultura-production.up.railway.app/","viabilidad":"baja","notas":"Personas naturales, enfoque regional Cúcuta"}
   ]
 }
