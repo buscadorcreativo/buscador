@@ -870,6 +870,9 @@ function buildWhere(){
     w+=` AND adjudicado = 'No'`;
     w+=` AND estado_de_apertura_del_proceso = 'Abierto'`;
     w+=` AND modalidad_de_contratacion not in('Contratación régimen especial','Contratación directa')`;
+    // Deja fuera los sondeos de precios ("Estimate Phase"), que son solicitudes de
+    // cotizacion para presupuestar, no procesos a los que se pueda presentar oferta.
+    w+=` AND estado_resumen in('Presentación de oferta','Fase de ofertas','Presentación de observaciones','Manifestación de interés (Menor Cuantía)')`;
   }else if(est==='abierto'){
     w+=` AND estado_del_procedimiento in('Publicado','Abierto')`;
   }else if(est==='evaluacion'){
@@ -889,6 +892,23 @@ function buildWhere(){
 function buildOrder(){
   return ordenCampo+' '+ordenDir;
 }
+// Colapsa las filas que son el mismo proceso repartido en lotes.
+function dedupeLotes(filas){
+  if(!Array.isArray(filas))return [];
+  const vistos=new Map();
+  filas.forEach(f=>{
+    const k=f.referencia_del_proceso||f.id_del_proceso||JSON.stringify(f).slice(0,80);
+    const previo=vistos.get(k);
+    if(!previo){vistos.set(k,{...f,_lotes:1});return}
+    previo._lotes++;
+    // Se conserva el lote de mayor valor, que es el que mejor representa el proceso.
+    if(Number(f.precio_base||0)>Number(previo.precio_base||0)){
+      const n=previo._lotes;vistos.set(k,{...f,_lotes:n});
+    }
+  });
+  return [...vistos.values()];
+}
+
 // Construye la URL CRUDA del SECOP (sin proxy)
 function rawDataURL(p){
   const txt=document.getElementById('si').value.trim();
@@ -926,7 +946,9 @@ async function buscar(p=1){
   showLoad();
   try{
     const dataRes=await fetchSECOP(rawDataURL(p));
-    res=dataRes.data;
+    // Un proceso partido en lotes vuelve una fila por lote, con la misma referencia
+    // y el mismo nombre. Para el buscador es una sola oportunidad, no cuatro.
+    res=dedupeLotes(dataRes.data);
 
     let countOk=res.length;
     try{
@@ -1027,6 +1049,7 @@ function mkCard(p,idx){
     <div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end;flex-shrink:0">
       ${bH(est)}
       ${esMinima?'<span class="badge bmin">Mín. cuantía</span>':''}
+      ${p._lotes>1?`<span class="badge bmin" title="Este proceso está dividido en lotes">${p._lotes} lotes</span>`:''}
     </div>
   </div>
   <div class="cmeta">
