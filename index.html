@@ -791,11 +791,11 @@ function pintarEstadoSupa(){
   if(!el)return;
   if(SUPA_OK){
     el.style.color='var(--g)';
-    el.textContent='✓ Supabase conectado — tus postulaciones se sincronizan en la nube';
+    el.textContent='✓ Nube conectada — tus postulaciones y tu perfil te siguen entre el computador y el celular. La API key se queda en cada equipo.';
     if(box){box.style.background='rgba(56,245,160,.04)';box.style.borderColor='rgba(56,245,160,.15)'}
   }else{
     el.style.color='var(--y)';
-    el.textContent='⚠ Sin nube — tus postulaciones se guardan solo en este navegador. No se pierden, pero no las verás en otro equipo.';
+    el.textContent='⚠ Sin nube — tus postulaciones y tu perfil se guardan solo en este navegador. No se pierden, pero no los verás en otro equipo.';
     if(box){box.style.background='rgba(255,214,10,.04)';box.style.borderColor='rgba(255,214,10,.18)'}
   }
 }
@@ -1200,14 +1200,75 @@ function precargarBushido(){
   localStorage.setItem('rc_configurado','1');
 }
 
-window.addEventListener('load',()=>{
+// ── SINCRONIZACIÓN DEL PERFIL ──
+// Las postulaciones ya se sincronizaban, pero el perfil vivia solo en localStorage,
+// que es por navegador: al abrir la app en el celular habia que llenarlo de nuevo.
+// La API key NO se sincroniza a proposito — la anon key es publica y cualquiera con
+// la URL del proyecto podria leerla. Esa se queda en cada equipo.
+const CAMPOS_PERFIL=['pn','pt','pd','pc','pe','pr','pf-activos','pf-pasivos','pf-actcorr','pf-pascorr','pf-utilop','pf-interes','pf-exp'];
+const COL_PERFIL={pn:'nombre',pt:'tipo',pd:'disciplinas',pc:'ciudad',pe:'experiencia',pr:'rup',
+  'pf-activos':'activos','pf-pasivos':'pasivos','pf-actcorr':'activo_corriente','pf-pascorr':'pasivo_corriente',
+  'pf-utilop':'utilidad_operacional','pf-interes':'gastos_intereses','pf-exp':'experiencia_detalle'};
+const NUMERICOS=new Set(['activos','pasivos','activo_corriente','pasivo_corriente','utilidad_operacional','gastos_intereses']);
+
+let guardadoPendiente=null;
+function guardarPerfilRemoto(){
+  if(!supaOk())return;
+  // Se agrupan los cambios: escribir en cada tecla seria una peticion por letra.
+  clearTimeout(guardadoPendiente);
+  guardadoPendiente=setTimeout(async()=>{
+    const fila={id:1,updated_at:new Date().toISOString()};
+    CAMPOS_PERFIL.forEach(id=>{
+      const el=document.getElementById(id);if(!el)return;
+      const col=COL_PERFIL[id];
+      fila[col]=NUMERICOS.has(col)?num(id):el.value;
+    });
+    fila.documentos=[...document.querySelectorAll('.doc-chip.on')].map(d=>d.dataset.doc);
+    try{
+      await fetch(SUPA_URL+'/rest/v1/perfil?on_conflict=id',{
+        method:'POST',
+        headers:{...supaHeaders(),'Prefer':'resolution=merge-duplicates'},
+        body:JSON.stringify(fila)
+      });
+    }catch(e){console.warn('No se pudo guardar el perfil en la nube',e)}
+  },1200);
+}
+
+async function cargarPerfilRemoto(){
+  if(!supaOk())return false;
+  try{
+    const r=await fetch(SUPA_URL+'/rest/v1/perfil?id=eq.1&select=*',{headers:supaHeaders()});
+    if(!r.ok)return false;
+    const filas=await r.json();
+    const p=filas&&filas[0];
+    if(!p)return false;
+    // Si la fila esta vacia (recien creada) no se pisa lo que ya haya en el equipo.
+    const tieneAlgo=CAMPOS_PERFIL.some(id=>{const v=p[COL_PERFIL[id]];return v!==null&&v!==undefined&&v!==''&&v!==0});
+    if(!tieneAlgo)return false;
+    CAMPOS_PERFIL.forEach(id=>{
+      const el=document.getElementById(id);if(!el)return;
+      const v=p[COL_PERFIL[id]];
+      if(v===null||v===undefined)return;
+      el.value=String(v);
+      localStorage.setItem('rc_p_'+id,el.value);
+    });
+    if(Array.isArray(p.documentos)){
+      localStorage.setItem('rc_p_docs',JSON.stringify(p.documentos));
+      document.querySelectorAll('.doc-chip').forEach(c=>c.classList.toggle('on',p.documentos.includes(c.dataset.doc)));
+    }
+    pintarIndicadores();
+    return true;
+  }catch(e){console.warn('No se pudo leer el perfil de la nube',e);return false}
+}
+
+window.addEventListener('load',async()=>{
   precargarBushido();
   const k=localStorage.getItem('rc_key');
   if(k){document.getElementById('ak').value=k;setKeyStatus(true)}
-  ['pn','pt','pd','pc','pe','pr','pf-activos','pf-pasivos','pf-actcorr','pf-pascorr','pf-utilop','pf-interes','pf-exp'].forEach(id=>{
+  CAMPOS_PERFIL.forEach(id=>{
     const el=document.getElementById(id);if(!el)return;
     const v=localStorage.getItem('rc_p_'+id);if(v)el.value=v;
-    el.addEventListener('change',()=>localStorage.setItem('rc_p_'+id,el.value));
+    el.addEventListener('change',()=>{localStorage.setItem('rc_p_'+id,el.value);guardarPerfilRemoto()});
     // Los indicadores se recalculan mientras se escribe, no solo al salir del campo.
     if(id.startsWith('pf-')&&id!=='pf-exp')el.addEventListener('input',pintarIndicadores);
   });
@@ -1220,8 +1281,13 @@ window.addEventListener('load',()=>{
       c.classList.toggle('on');
       const docs=[...document.querySelectorAll('.doc-chip.on')].map(d=>d.dataset.doc);
       localStorage.setItem('rc_p_docs',JSON.stringify(docs));
+      guardarPerfilRemoto();
     });
   });
+  // Si hay nube, lo que este guardado alla manda: es lo que permite abrir la app
+  // en otro equipo y encontrar el perfil como lo dejaste.
+  if(SUPA_OK===null)await probarSupabase();
+  await cargarPerfilRemoto();
 });
 function toggleLicit(){
   const b=document.getElementById('licit-body');
