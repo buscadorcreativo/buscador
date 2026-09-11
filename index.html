@@ -910,18 +910,66 @@ function dedupeLotes(filas){
 }
 
 // Construye la URL CRUDA del SECOP (sin proxy)
-function rawDataURL(p){
+// Socrata NO entiende OR dentro de $q: toma toda la cadena como texto exigido, y
+// hasta la palabra "OR" cuenta como token. Por eso antes, entre mas chips se
+// activaban menos resultados salian, y con cuatro o mas la busqueda daba cero.
+// La busqueda por palabras se arma ahora con LIKE dentro del $where.
+//
+// El SECOP escribe con tildes y SoQL no compara ignorando acentos, asi que cada
+// termino se busca por un fragmento sin vocal acentuada (PRODUCCIÓN -> PRODUCCI)
+// o listando las dos grafias cuando el acento cae antes (GRAFIC / GRÁFIC).
+// Estructura: [ [alternativas], [alternativas] ] — los fragmentos van con AND
+// entre si, las alternativas de cada fragmento con OR.
+const TERMINOS={
+  'audiovisual':          [['AUDIOVISUAL']],
+  'produccion video':     [['PRODUCCI'],['VIDEO','VÍDEO']],
+  'fotografia':           [['FOTOGR']],
+  'registro fotografico': [['REGISTRO'],['FOTOGR']],
+  'diseño grafico':       [['DISE'],['GRAFIC','GRÁFIC']],
+  'pieza grafica':        [['PIEZA'],['GRAFIC','GRÁFIC']],
+  'identidad visual':     [['IDENTIDAD'],['VISUAL']],
+  'artes visuales':       [['ARTES'],['VISUAL']],
+  'multimedia':           [['MULTIMEDIA']],
+  'streaming':            [['STREAMING']],
+  'video institucional':  [['VIDEO','VÍDEO'],['INSTITUCIONAL']],
+  'cobertura audiovisual':[['COBERTURA'],['AUDIOVISUAL']],
+  'documental':           [['DOCUMENTAL']],
+  'animacion':            [['ANIMACI']],
+  'edicion video':        [['EDICI'],['VIDEO','VÍDEO']],
+  'produccion audiovisual':[['PRODUCCI'],['AUDIOVISUAL']],
+  'contenidos digitales': [['CONTENIDO'],['DIGITAL']],
+  'postproduccion':       [['POSPRODUCCI','POSTPRODUCCI']],
+  'grabacion':            [['GRABACI']],
+  'ilustracion':          [['ILUSTRACI']],
+};
+const CAMPOS_TEXTO=['nombre_del_procedimiento','descripci_n_del_procedimiento'];
+
+function sq(s){return String(s).replace(/'/g,"''")}          // comilla simple segura en SoQL
+function fragWhere(alts){
+  const o=[];
+  alts.forEach(v=>CAMPOS_TEXTO.forEach(c=>o.push(`upper(${c}) like '%${sq(v)}%'`)));
+  return '('+o.join(' OR ')+')';
+}
+function textoWhere(){
+  const bloques=[];
+  aC.forEach(k=>{
+    const frags=TERMINOS[k]||[[k.toUpperCase()]];
+    bloques.push('('+frags.map(fragWhere).join(' AND ')+')');
+  });
   const txt=document.getElementById('si').value.trim();
-  const terms=[...aC];if(txt)terms.push(txt);
-  const q=terms.length?terms.join(' OR '):'audiovisual';
-  const inner=new URLSearchParams({'$limit':PG,'$offset':(p-1)*PG,'$q':q,'$order':buildOrder(),'$where':buildWhere()});
+  if(txt){
+    const palabras=txt.toUpperCase().split(/\s+/).filter(Boolean);
+    bloques.push('('+palabras.map(p=>fragWhere([p])).join(' AND ')+')');
+  }
+  return bloques.length?' AND ('+bloques.join(' OR ')+')':'';
+}
+
+function rawDataURL(p){
+  const inner=new URLSearchParams({'$limit':PG,'$offset':(p-1)*PG,'$order':buildOrder(),'$where':buildWhere()+textoWhere()});
   return API+'?'+inner;
 }
 function rawCountURL(){
-  const txt=document.getElementById('si').value.trim();
-  const terms=[...aC];if(txt)terms.push(txt);
-  const q=terms.length?terms.join(' OR '):'audiovisual';
-  const inner=new URLSearchParams({'$select':'count(*) as count','$q':q,'$where':buildWhere()});
+  const inner=new URLSearchParams({'$select':'count(*) as count','$where':buildWhere()+textoWhere()});
   return API+'?'+inner;
 }
 
