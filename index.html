@@ -1023,7 +1023,9 @@ function tSort(m){
   document.getElementById('sf').textContent=sm==='f'?`Recientes ${sd==='desc'?'↓':'↑'}`:'Recientes';
   document.getElementById('sv').textContent=sm==='v'?`Mayor valor ${sd==='desc'?'↓':'↑'}`:'Mayor valor';
   // Ordenamiento en el SERVIDOR (sobre todos los resultados, no solo la página visible)
-  ordenCampo=sm==='f'?'fecha_de_publicacion_del':'valor_total_estimado';
+  // El dataset no tiene valor_total_estimado: ordenar por ahi devolvia HTTP 400,
+  // asi que el boton "Mayor valor" nunca mostro resultados. La columna es precio_base.
+  ordenCampo=sm==='f'?'fecha_de_publicacion_del':'precio_base';
   ordenDir=sd==='desc'?'DESC':'ASC';
   buscar(1); // Re-busca con el nuevo orden desde la página 1
 }
@@ -1146,10 +1148,16 @@ function rPag(){
 function pR(c,t){if(t<=7)return Array.from({length:t},(_,i)=>i+1);if(c<=4)return[1,2,3,4,5,'…',t];if(c>=t-3)return[1,'…',t-4,t-3,t-2,t-1,t];return[1,'…',c-1,c,c+1,'…',t]}
 function showLoad(){document.getElementById('sr').innerHTML=`<div class="stbox"><div class="spin"></div><div class="stt">Consultando SECOP II 2026</div><div class="sts">Conectando con datos.gov.co…</div></div>`;document.getElementById('sbar').style.display='none';document.getElementById('pag').innerHTML=''}
 function showErr(m){
-  const esRed=/proxy|fetch|network|timeout|abort|HTTP|conn/i.test(m);
+  // Un 400 es consulta mal formada, no red saturada: decir "los proxies estan caidos"
+  // manda a esperar y recargar, que nunca lo arregla.
+  const esConsulta=/\b400\b|no-such-column|soql|malformed/i.test(m);
+  const esRed=!esConsulta&&/proxy|fetch|network|timeout|abort|HTTP|conn/i.test(m);
   const esBug=/not a function|undefined|null|cannot read/i.test(m);
   let titulo, sub;
-  if(esBug){
+  if(esConsulta){
+    titulo='El SECOP rechazó la búsqueda';
+    sub=`La consulta salió mal formada, así que reintentar no va a cambiar nada.<br><br><strong style="color:var(--y)">Qué hacer:</strong><br>• Quita el último filtro o chip que activaste<br>• Si buscaste texto libre, prueba sin comillas ni símbolos<br>• Recarga la página (F5) para volver a los filtros por defecto<br><br><small style="color:var(--dm)">${esc(m)}</small>`;
+  } else if(esBug){
     titulo='Error al procesar datos';
     sub=`La API respondió pero algunos datos vinieron en formato inesperado.<br><br><strong style="color:var(--y)">Soluciones:</strong><br>• Recarga la página (F5)<br>• Si persiste, prueba con otros chips de búsqueda<br>• Reporta el error con esta info:<br><br><small style="color:var(--dm)">${esc(m)}</small>`;
   } else if(esRed){
