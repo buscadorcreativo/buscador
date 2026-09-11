@@ -430,8 +430,9 @@ footer{border-top:1px solid var(--b1);padding:16px 20px;max-width:1200px;margin:
       <input type="text" id="si" placeholder="Buscar… ej: video institucional, fotografía evento, animación">
     </div>
     <select id="sest">
+      <option value="ofertable" selected>⚡ Donde puedo ofertar</option>
+      <option value="abierto">Publicados (incluye directa y r. especial)</option>
       <option value="">Todos los estados</option>
-      <option value="abierto">Solo abiertos (Publicado/Abierto)</option>
       <option value="evaluacion">En evaluación</option>
       <option value="seleccionado">Seleccionado (adjudicado)</option>
       <option value="cancelado">Cancelado/Suspendido</option>
@@ -860,7 +861,16 @@ function buildWhere(){
   w+=cuantiaWhere();
   // Estado: valores reales verificados contra la API: Publicado, Abierto, Evaluación, Seleccionado, Cancelado, Suspendido, Borrador, Aprobado, En aprobación
   const est=document.getElementById('sest').value;
-  if(est==='abierto'){
+  if(est==='ofertable'){
+    // "Publicado" NO significa que se pueda competir: el 99% de lo publicado es
+    // regimen especial o contratacion directa, donde la entidad ya eligio proveedor
+    // y solo esta publicando el contrato. Para que quede lo que de verdad admite
+    // oferta hay que exigir las cuatro condiciones juntas.
+    w+=` AND estado_del_procedimiento in('Publicado','Abierto')`;
+    w+=` AND adjudicado = 'No'`;
+    w+=` AND estado_de_apertura_del_proceso = 'Abierto'`;
+    w+=` AND modalidad_de_contratacion not in('Contratación régimen especial','Contratación directa')`;
+  }else if(est==='abierto'){
     w+=` AND estado_del_procedimiento in('Publicado','Abierto')`;
   }else if(est==='evaluacion'){
     w+=` AND estado_del_procedimiento = 'Evaluación'`;
