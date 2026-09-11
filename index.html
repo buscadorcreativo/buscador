@@ -675,6 +675,15 @@ footer{border-top:1px solid var(--b1);padding:16px 20px;max-width:1200px;margin:
           <div class="modal-section-label">Pasivo corriente</div>
           <input type="text" id="pf-pascorr" placeholder="ej: 20000000" style="background:var(--s2);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:11px;padding:8px 10px;outline:none;width:100%">
         </div>
+        <div>
+          <div class="modal-section-label">Utilidad operacional</div>
+          <input type="text" id="pf-utilop" placeholder="ej: 18000000" style="background:var(--s2);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:11px;padding:8px 10px;outline:none;width:100%">
+        </div>
+        <div>
+          <div class="modal-section-label">Gastos de intereses <span style="color:var(--dm)">(0 si no tienes deuda)</span></div>
+          <input type="text" id="pf-interes" placeholder="ej: 2000000" style="background:var(--s2);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:11px;padding:8px 10px;outline:none;width:100%">
+        </div>
+        <div style="grid-column:1/-1" id="ind-box"></div>
         <div style="grid-column:1/-1">
           <div class="modal-section-label">📋 Experiencia certificada (contratos similares ejecutados)</div>
           <textarea id="pf-exp" placeholder="ej: 3 contratos de producción audiovisual con alcaldías 2023-2025 por $45M, $30M y $60M. Cobertura fotográfica para IDARTES 2024..." style="background:var(--s2);border:1px solid var(--b1);color:var(--tx);font-family:var(--mono);font-size:11px;padding:8px 10px;outline:none;width:100%;min-height:54px;resize:vertical;line-height:1.6"></textarea>
@@ -1195,11 +1204,14 @@ window.addEventListener('load',()=>{
   precargarBushido();
   const k=localStorage.getItem('rc_key');
   if(k){document.getElementById('ak').value=k;setKeyStatus(true)}
-  ['pn','pt','pd','pc','pe','pr','pf-activos','pf-pasivos','pf-actcorr','pf-pascorr','pf-exp'].forEach(id=>{
+  ['pn','pt','pd','pc','pe','pr','pf-activos','pf-pasivos','pf-actcorr','pf-pascorr','pf-utilop','pf-interes','pf-exp'].forEach(id=>{
     const el=document.getElementById(id);if(!el)return;
     const v=localStorage.getItem('rc_p_'+id);if(v)el.value=v;
     el.addEventListener('change',()=>localStorage.setItem('rc_p_'+id,el.value));
+    // Los indicadores se recalculan mientras se escribe, no solo al salir del campo.
+    if(id.startsWith('pf-')&&id!=='pf-exp')el.addEventListener('input',pintarIndicadores);
   });
+  pintarIndicadores();
   // Doc chips
   const savedDocs=JSON.parse(localStorage.getItem('rc_p_docs')||'[]');
   document.querySelectorAll('.doc-chip').forEach(c=>{
@@ -1233,13 +1245,18 @@ function num(id){const v=parseFloat((document.getElementById(id).value||'').repl
 function getPerfil(){
   const docs=[...document.querySelectorAll('.doc-chip.on')].map(d=>d.dataset.doc);
   const activos=num('pf-activos'),pasivos=num('pf-pasivos'),actCorr=num('pf-actcorr'),pasCorr=num('pf-pascorr');
-  // Índices financieros (los que pide el SECOP)
+  // Los cinco indicadores que publica el RUP, para que el análisis compare contra el pliego
   let indices=null;
   if(activos>0){
+    const i=calcIndicadores();
     indices={
-      liquidez: pasCorr>0?(actCorr/pasCorr).toFixed(2):'n/d',
-      endeudamiento: activos>0?((pasivos/activos)*100).toFixed(1)+'%':'n/d',
-      capitalTrabajo: (actCorr-pasCorr),
+      liquidez: i.liquidez===null?'n/d':i.liquidez.toFixed(2),
+      endeudamiento: i.endeudamiento===null?'n/d':(i.endeudamiento*100).toFixed(1)+'%',
+      coberturaIntereses: i.cobertura===null?'n/d':(i.cobertura===Infinity?'sin deuda financiera':i.cobertura.toFixed(2)),
+      rentabilidadPatrimonio: i.rentPatrimonio===null?'n/d':(i.rentPatrimonio*100).toFixed(1)+'%',
+      rentabilidadActivo: i.rentActivo===null?'n/d':(i.rentActivo*100).toFixed(1)+'%',
+      patrimonio: i.patrimonio,
+      capitalTrabajo: i.capitalTrabajo,
     };
   }
   return{
@@ -1253,6 +1270,62 @@ function getPerfil(){
     experiencia:document.getElementById('pf-exp').value||'',
     documentos:docs,
   };
+}
+
+// ── INDICADORES DEL RUP (Decreto 1082 de 2015) ──
+// Los cinco que el RUP publica y que las entidades usan para habilitar. Los umbrales
+// NO estan en la ley: cada pliego fija los suyos, asi que aca se muestran los rangos
+// que se piden habitualmente, no una nota de aprobado o reprobado.
+function calcIndicadores(){
+  const at=num('pf-activos'),pt=num('pf-pasivos'),ac=num('pf-actcorr'),pc=num('pf-pascorr');
+  const uo=num('pf-utilop'),gi=num('pf-interes');
+  const patrimonio=at-pt;
+  return {
+    at,pt,ac,pc,uo,gi,patrimonio,
+    liquidez:      pc>0 ? ac/pc : null,
+    endeudamiento: at>0 ? pt/at : null,
+    cobertura:     gi>0 ? uo/gi : (uo>0?Infinity:null),
+    rentPatrimonio:patrimonio>0 ? uo/patrimonio : null,
+    rentActivo:    at>0 ? uo/at : null,
+    capitalTrabajo:ac-pc,
+  };
+}
+function pintarIndicadores(){
+  const box=document.getElementById('ind-box');if(!box)return;
+  const i=calcIndicadores();
+  if(!i.at&&!i.ac){box.innerHTML='';return}
+  const pesos=n=>'$'+Math.round(n).toLocaleString('es-CO');
+  // [etiqueta, valor formateado, veredicto, rango habitual]
+  const fila=(nom,val,fmt,ok,rango,nota)=>{
+    const cls=ok===null?'var(--mu)':ok?'var(--g)':'var(--r)';
+    const ico=ok===null?'—':ok?'✓':'⚠';
+    return `<div style="display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--b1)">
+      <div style="flex:1"><div style="color:var(--tx)">${nom}</div><div style="font-size:9px;color:var(--dm)">${rango}${nota?' · '+nota:''}</div></div>
+      <div style="text-align:right;white-space:nowrap"><span style="color:${cls};font-weight:700">${ico} ${val===null?'sin datos':fmt}</span></div>
+    </div>`;
+  };
+  let h='';
+  h+=fila('Índice de liquidez', i.liquidez, i.liquidez===null?'':i.liquidez.toFixed(2),
+       i.liquidez===null?null:i.liquidez>=1.2, 'Suelen pedir ≥ 1.0 a 1.5');
+  h+=fila('Nivel de endeudamiento', i.endeudamiento, i.endeudamiento===null?'':(i.endeudamiento*100).toFixed(1)+'%',
+       i.endeudamiento===null?null:i.endeudamiento<=0.60, 'Suelen pedir ≤ 50% a 70%');
+  h+=fila('Cobertura de intereses', i.cobertura,
+       i.cobertura===null?'':(i.cobertura===Infinity?'sin deuda':i.cobertura.toFixed(2)),
+       i.cobertura===null?null:(i.cobertura===Infinity||i.cobertura>=1),
+       'Suelen pedir ≥ 1.0', i.cobertura===Infinity?'sin gastos de interés, se suele dar por cumplido':'');
+  h+=fila('Rentabilidad del patrimonio', i.rentPatrimonio, i.rentPatrimonio===null?'':(i.rentPatrimonio*100).toFixed(1)+'%',
+       i.rentPatrimonio===null?null:i.rentPatrimonio>=0.05, 'Suelen pedir ≥ 0% a 10%');
+  h+=fila('Rentabilidad del activo', i.rentActivo, i.rentActivo===null?'':(i.rentActivo*100).toFixed(1)+'%',
+       i.rentActivo===null?null:i.rentActivo>=0.03, 'Suelen pedir ≥ 0% a 5%');
+  const ctCls=i.capitalTrabajo>=0?'var(--g)':'var(--r)';
+  h+=`<div style="display:flex;justify-content:space-between;padding:7px 0">
+      <div><div style="color:var(--tx)">Capital de trabajo</div><div style="font-size:9px;color:var(--dm)">Activo corriente − pasivo corriente · patrimonio ${pesos(i.patrimonio)}</div></div>
+      <div style="color:${ctCls};font-weight:700">${pesos(i.capitalTrabajo)}</div></div>`;
+  box.innerHTML=`<div style="background:var(--s2);border:1px solid var(--b1);padding:12px 14px;font-family:var(--mono);font-size:10px;line-height:1.5">
+    <div style="color:var(--y);text-transform:uppercase;letter-spacing:.12em;font-size:9px;margin-bottom:8px">Tus indicadores del RUP</div>
+    ${h}
+    <div style="color:var(--dm);font-size:9px;margin-top:9px;line-height:1.6">Son los cinco que publica el RUP y que las entidades usan para habilitarte. Cada pliego fija su propio umbral, así que esto es orientación, no un veredicto.</div>
+  </div>`;
 }
 
 const STEPS_ARR=['Leyendo convocatoria…','Identificando tipo y requisitos…','Evaluando viabilidad…','Generando propuestas narrativas…','Finalizando…'];
