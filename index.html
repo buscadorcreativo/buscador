@@ -587,8 +587,8 @@ footer{border-top:1px solid var(--b1);padding:16px 20px;max-width:1200px;margin:
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
     <p>Tu <strong>sistema de seguimiento</strong> de postulaciones. Agrega convocatorias desde las pestañas SECOP II, Públicas, Privadas o Internacional usando el botón <strong style="color:var(--g)">+ Postular</strong>. Cambia el estado a medida que avanzas y agrega notas para cada una.</p>
   </div>
-  <div style="background:rgba(56,245,160,.04);border:1px solid rgba(56,245,160,.15);padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
-    <span style="font-family:var(--mono);font-size:9px;color:var(--g)">✓ Supabase conectado — tus postulaciones se sincronizan en la nube</span>
+  <div id="supa-box" style="background:rgba(255,255,255,.02);border:1px solid var(--b1);padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+    <span id="supa-status" style="font-family:var(--mono);font-size:9px;color:var(--mu)">Verificando sincronización en la nube…</span>
   </div>
   <div class="post-stats" id="post-stats"></div>
   <div class="fbar">
@@ -759,7 +759,36 @@ También puedes hacer clic en 🧠 Analizar en cualquier tarjeta de las otras pe
 const SUPA_URL='https://znzmgbrzpnevcirgrfug.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpuem1nYnJ6cG5ldmNpcmdyZnVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwMTI4MTcsImV4cCI6MjEwMTU4ODgxN30.QEiFTwDCVXfJdB4FxkPE7cQo28gnv63oPNCrsh5ArC4';
 function supaHeaders(){return{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json'}}
-function supaOk(){return true}
+
+// Se prueba la conexión una vez al arrancar en vez de asumirla. Si el proyecto de
+// Supabase no responde, todo sigue funcionando contra localStorage y la interfaz lo dice
+// en vez de afirmar que está sincronizando en la nube.
+let SUPA_OK=null; // null = sin probar todavía
+function supaOk(){return SUPA_OK===true}
+async function probarSupabase(){
+  try{
+    const ctrl=new AbortController();
+    const t=setTimeout(()=>ctrl.abort(),6000);
+    const r=await fetch(SUPA_URL+'/rest/v1/postulaciones?select=id&limit=1',{headers:supaHeaders(),signal:ctrl.signal});
+    clearTimeout(t);
+    SUPA_OK=r.ok;
+  }catch(e){SUPA_OK=false}
+  pintarEstadoSupa();
+  return SUPA_OK;
+}
+function pintarEstadoSupa(){
+  const el=document.getElementById('supa-status'),box=document.getElementById('supa-box');
+  if(!el)return;
+  if(SUPA_OK){
+    el.style.color='var(--g)';
+    el.textContent='✓ Supabase conectado — tus postulaciones se sincronizan en la nube';
+    if(box){box.style.background='rgba(56,245,160,.04)';box.style.borderColor='rgba(56,245,160,.15)'}
+  }else{
+    el.style.color='var(--y)';
+    el.textContent='⚠ Sin nube — tus postulaciones se guardan solo en este navegador. No se pierden, pero no las verás en otro equipo.';
+    if(box){box.style.background='rgba(255,214,10,.04)';box.style.borderColor='rgba(255,214,10,.18)'}
+  }
+}
 
 // ── CLOCK ──
 function tick(){document.getElementById('clk').textContent=new Date().toLocaleString('es-CO',{weekday:'short',day:'2-digit',month:'short'}).toUpperCase()+' · '+new Date().toLocaleTimeString('es-CO')}
@@ -1571,6 +1600,7 @@ function showToast(msg){
 }
 
 async function loadPosts(){
+  if(SUPA_OK===null)await probarSupabase();
   if(supaOk()){
     try{
       const r=await fetch(SUPA_URL+'/rest/v1/postulaciones?select=*&order=created_at.desc',{headers:supaHeaders()});
