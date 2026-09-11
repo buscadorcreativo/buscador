@@ -457,9 +457,9 @@ footer{border-top:1px solid var(--b1);padding:16px 20px;max-width:1200px;margin:
     </select>
     <select id="scuantia" style="min-width:auto;flex:1">
       <option value="">Todo valor</option>
-      <option value="minima">≤ $132M (accesible)</option>
-      <option value="mediana">$132M – $1.000M</option>
-      <option value="mayor">> $1.000M</option>
+      <option value="minima">Mínima cuantía</option>
+      <option value="mediana">Menor cuantía</option>
+      <option value="mayor">Mayor cuantía</option>
     </select>
     <select id="sdepto" style="min-width:auto;flex:1">
       <option value="">Todo el país</option>
@@ -814,13 +814,31 @@ document.querySelectorAll('.chip').forEach(c=>{
 });
 document.getElementById('si').addEventListener('keydown',e=>{if(e.key==='Enter')buscar(1)});
 
+// Los topes de contratación se fijan en salarios mínimos, así que hay que moverlos
+// cada enero. Solo se actualiza SMMLV y el resto se recalcula.
+// Mínima cuantía = 10% de la menor cuantía de la entidad. Usamos el techo (100 SMMLV,
+// el de las entidades más grandes): así el filtro nunca esconde una oportunidad,
+// aunque para entidades pequeñas incluya alguna que ya sea menor cuantía.
+const SMMLV=1750905;              // 2026 — Decreto 1469 de 2025
+const TOPE_MINIMA=SMMLV*100;      // ≈ $175.1M
+const TOPE_MENOR=SMMLV*1000;      // ≈ $1.751M
+function fMill(n){return '$'+Math.round(n/1e6).toLocaleString('es-CO')+'M'}
+
 function cuantiaWhere(){
   const v=document.getElementById('scuantia').value;
-  if(v==='minima')return" AND precio_base <= 132000000";
-  if(v==='mediana')return" AND precio_base > 132000000 AND precio_base <= 1000000000";
-  if(v==='mayor')return" AND precio_base > 1000000000";
+  if(v==='minima')return" AND precio_base <= "+TOPE_MINIMA;
+  if(v==='mediana')return" AND precio_base > "+TOPE_MINIMA+" AND precio_base <= "+TOPE_MENOR;
+  if(v==='mayor')return" AND precio_base > "+TOPE_MENOR;
   return'';
 }
+// Las etiquetas del selector se arman con los topes para que no queden desfasadas.
+function pintarTopes(){
+  const s=document.getElementById('scuantia');if(!s)return;
+  s.options[1].textContent='≤ '+fMill(TOPE_MINIMA)+' · sin RUP';
+  s.options[2].textContent=fMill(TOPE_MINIMA)+' – '+fMill(TOPE_MENOR);
+  s.options[3].textContent='> '+fMill(TOPE_MENOR);
+}
+pintarTopes();
 // Fecha de inicio según el período seleccionado
 function fechaDesde(){
   const v=document.getElementById('speriodo').value;
@@ -991,7 +1009,7 @@ function mkCard(p,idx){
     urlDirecto=false;
   }
   const valorNum=parseFloat(p.precio_base||p.valor_total_estimado||0);
-  const esMinima=valorNum>0&&valorNum<=132000000;
+  const esMinima=valorNum>0&&valorNum<=TOPE_MINIMA;
   const textoParaAnalizar=`CONTRATO SECOP II\nTítulo: ${p.nombre_del_procedimiento||p.descripci_n_del_procedimiento||''}\nEntidad: ${p.entidad||p.nombre_entidad||''}\nEstado: ${est}\nModalidad: ${p.modalidad_de_contratacion||''}\nValor estimado: ${val}\nCiudad: ${ciu}\nFecha publicación: ${fd}\nFecha cierre: ${fc}\nReferencia: ${ref}`;
 
   return`<div class="ctop">
