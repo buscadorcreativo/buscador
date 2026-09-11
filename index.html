@@ -396,10 +396,10 @@ footer{border-top:1px solid var(--b1);padding:16px 20px;max-width:1200px;margin:
   <h1>RADAR<em>CREATIVO 2026</em></h1>
   <p class="hsub">SECOP II · SINAC · IDARTES · FDC · SmartFilms · ARTBO · BAM · Bacánika · Ibermedia<br>Contratos públicos + Estímulos + Fondos + Sistema de Postulación + Análisis con IA</p>
   <div class="stat-row">
-    <div class="stat"><span class="stat-n" id="st-secop">—</span><span class="stat-l">SECOP 2026</span></div>
-    <div class="stat"><span class="stat-n">20</span><span class="stat-l">Estímulos activos</span></div>
-    <div class="stat"><span class="stat-n">8</span><span class="stat-l">Privadas</span></div>
-    <div class="stat"><span class="stat-n">6</span><span class="stat-l">Internacional</span></div>
+    <div class="stat"><span class="stat-n" id="st-secop">—</span><span class="stat-l">SECOP</span></div>
+    <div class="stat"><span class="stat-n" id="st-abiertas">—</span><span class="stat-l">Abiertas hoy</span></div>
+    <div class="stat"><span class="stat-n" id="st-pronto">—</span><span class="stat-l">Cierran ≤15 días</span></div>
+    <div class="stat"><span class="stat-n" id="st-total">—</span><span class="stat-l">En el radar</span></div>
   </div>
 </header>
 
@@ -407,10 +407,10 @@ footer{border-top:1px solid var(--b1);padding:16px 20px;max-width:1200px;margin:
 <div class="navwrap">
   <div class="tabs">
     <button class="tab on" onclick="sw('secop',this)">🔎 SECOP II<span class="tc" id="tc-s">API</span></button>
-    <button class="tab" onclick="sw('pub',this)">🏛 Públicas<span class="tc">20</span></button>
-    <button class="tab" onclick="sw('priv',this)">🏢 Privadas<span class="tc">8</span></button>
-    <button class="tab" onclick="sw('inter',this)">🌎 Internacional<span class="tc">6</span></button>
-    <button class="tab" onclick="sw('fuentes',this)">📡 Fuentes<span class="tc">5</span></button>
+    <button class="tab" onclick="sw('pub',this)">🏛 Públicas<span class="tc" id="tc-pub">—</span></button>
+    <button class="tab" onclick="sw('priv',this)">🏢 Privadas<span class="tc" id="tc-priv">—</span></button>
+    <button class="tab" onclick="sw('inter',this)">🌎 Internacional<span class="tc" id="tc-inter">—</span></button>
+    <button class="tab" onclick="sw('fuentes',this)">📡 Fuentes<span class="tc" id="tc-fuentes">—</span></button>
     <button class="tab" onclick="sw('post',this)" style="color:var(--g)">📋 Postulaciones<span class="tc" id="tc-post" style="background:rgba(56,245,160,.15);color:var(--g)">0</span></button>
     <button class="tab" onclick="sw('analizador',this)" style="color:var(--p)">🧠 Analizador IA<span class="tc" style="background:rgba(192,56,245,.15);color:var(--p)">IA</span></button>
   </div>
@@ -538,6 +538,10 @@ footer{border-top:1px solid var(--b1);padding:16px 20px;max-width:1200px;margin:
     <span class="fc" data-fc="visual" onclick="ff('visual',this,'pub')">🎨 Artes Visuales</span>
     <span class="fc" data-fc="diseño" onclick="ff('diseño',this,'pub')">✏️ Diseño</span>
     <span class="fc" data-fc="cine" onclick="ff('cine',this,'pub')">🎞 Cine/FDC</span>
+    <span class="fc" data-fc="open" onclick="ff('open',this,'pub')" style="color:var(--g)">● Solo abiertas</span>
+  </div>
+  <div class="fbar" style="border-top:none">
+    <span class="flbl" id="barrido-info" style="text-transform:none;letter-spacing:0">Cargando convocatorias…</span>
   </div>
   <div id="g-pub"></div>
 </div>
@@ -793,12 +797,13 @@ function fechaDesde(){
   const v=document.getElementById('speriodo').value;
   const hoy=new Date();
   let d;
+  const anioActual=hoy.getFullYear();
   if(v==='3m'){d=new Date(hoy);d.setMonth(d.getMonth()-3);}
   else if(v==='1m'){d=new Date(hoy);d.setMonth(d.getMonth()-1);}
   else if(v==='15d'){d=new Date(hoy);d.setDate(d.getDate()-15);}
-  else{return"2026-01-01T00:00:00.000";} // Todo 2026
-  // No bajar de 2026
-  const min=new Date('2026-01-01');
+  else{return anioActual+"-01-01T00:00:00.000";} // Todo el año en curso
+  // No bajar del 1 de enero del año en curso
+  const min=new Date(anioActual+'-01-01');
   if(d<min)d=min;
   return d.toISOString().split('T')[0]+'T00:00:00.000';
 }
@@ -1406,7 +1411,7 @@ function mkPasosH(pasos){
 function mkCC(f,i,src){
   const bm={open:'cb-o',privado:'cb-priv',proxima:'cb-p',periodic:'cb-pr'};
   const bc=bm[f.estado]||'cb-cl';
-  const dias=f.fechaCierre?Math.ceil((new Date(f.fechaCierre)-new Date())/(86400000)):null;
+  const dias=f.fechaCierre?Math.ceil((new Date(f.fechaCierre+'T23:59:59')-new Date())/(86400000)):null;
   let diasHtml='';
   if(dias!==null){
     if(dias<0)diasHtml=`<span class="badge bc">Cerrada</span>`;
@@ -1446,64 +1451,106 @@ function ff(cat,btn,panel){
   document.querySelectorAll(`#${prefix} .ccard`).forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat||c.dataset.s===cat)?'flex':'none'});
 }
 
-// DATA
-const PUB=[
-  {icon:'🎬',title:'SmartFilms 2026',org:'MinTIC + Canal Trece',cat:'av',desc:'+$100M en premios. Cat. Profesional ($35M), RedvolTIC, Incluyente, Etnias, LGBTIQ+ ($25M c/u). Cine con celular. Para toda Colombia.',tags:['Celular','Festival','$100M+','Profesional','Abierto a todos'],val:'$100M+ en premios',estado:'open',stxt:'● Abierto',fechaCierre:'2026-06-22',fechaDisplay:'Cierre: 22 jun 2026',url:'https://www.smartfilms.com.co'},
-  {icon:'🎞',title:'FDC Fase III — Producción 2026',org:'Proimágenes Colombia · CNACC',cat:'cine',desc:'$17.575M para producción, realización y posproducción. 27 modalidades: largometraje, documental, animación, cortometraje. Solo colombianos.',tags:['Producción','Posproducción','$17.575M','Documental','Animación'],val:'$17.575M',estado:'open',stxt:'● Abierto',fechaCierre:'2026-07-26',fechaDisplay:'Cierre: 26 jul 2026',url:'https://www.convocatoriafdc.com'},
-  {icon:'🎞',title:'FDC Automáticos 2026',org:'Proimágenes Colombia · CNACC',cat:'cine',desc:'Distribución, taquilla, festivales. Sin concurso — por desempeño. Abierto todo el año.',tags:['Distribución','Taquilla','Festivales','Automático'],val:'Parte de $20.612M',estado:'open',stxt:'● Todo el año',fechaCierre:'2026-12-11',fechaDisplay:'Cierre: 11 dic 2026',url:'https://www.convocatoriafdc.com'},
-  {icon:'🏙',title:'IDARTES PDE 2026 — Audiovisual',org:'Instituto Distrital de las Artes · Bogotá',cat:'av',desc:'15 convocatorias: cortometraje, documental, animación, curaduría, no ficción, preservación, videoarte. Para residentes en Bogotá. $367M en audiovisual.',tags:['Bogotá','15 convocatorias','Cortometraje','Documental','Animación'],val:'$367M audiovisual',estado:'open',stxt:'● Múltiples ventanas',fechaCierre:null,fechaDisplay:'Ver CultuRed de IDARTES',url:'https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026'},
-  {icon:'🎪',title:'Premio Filminuto 2026',org:'Cinemateca de Bogotá · IDARTES',cat:'av',desc:'26 estímulos de $3.200.000 para videos de 1 minuto. Temática libre. La más accesible del PDE. Bogotá.',tags:['Bogotá','1 minuto','26 estímulos','Accesible','$3,2M c/u'],val:'$83,2M (26 × $3,2M)',estado:'open',stxt:'● Abierto',fechaCierre:'2026-06-11',fechaDisplay:'Cierre: 11 jun 2026',url:'https://cinematecadebogota.gov.co/convocatorias'},
-  {icon:'🏛',title:'Concertación Cultural 2026',org:'MinCulturas — SINAC',cat:'av',desc:'Para entidades legalmente constituidas: ONGs, colectivos, organizaciones. Financia proyectos audiovisuales de circulación y producción.',tags:['Entidades','ONGs','Nacional','Circulación','Producción'],val:'Parte de $175.000M',estado:'open',stxt:'● Abierto',fechaCierre:'2026-09-12',fechaDisplay:'Cierre: 12 sep 2026',url:'https://concertacion.mincultura.gov.co'},
-  {icon:'📷',title:'Premio Video FUGA 2026',org:'Fundación Gilberto Alzate Avendaño · Bogotá',cat:'foto',desc:'26 estímulos de $3.200.000 para video sobre el centro de Bogotá (Candelaria, Santa Fe, Mártires). Identidad cultural y oficios.',tags:['Video','Bogotá','Centro','$3,2M c/u','26 estímulos'],val:'$83,2M (26 × $3,2M)',estado:'open',stxt:'● Abierto',fechaCierre:'2026-06-11',fechaDisplay:'Cierre: 11 jun 2026',url:'https://www.fuga.gov.co'},
-  {icon:'📸',title:'Premio Fotografía FUGA 2026',org:'Fundación Gilberto Alzate Avendaño · Bogotá',cat:'foto',desc:'26 estímulos de $3.200.000. Serie de 5 fotos sobre pluriculturalidad en La Candelaria, Santa Fe y Los Mártires. Categorías: gastronomía y sabores migrantes.',tags:['Fotografía','Bogotá','Serie 5 fotos','Centro histórico'],val:'$83,2M (26 × $3,2M)',estado:'open',stxt:'◑ Verificar prórroga',fechaCierre:null,fechaDisplay:'Cerró may 13 — verificar',url:'https://www.fuga.gov.co'},
-  {icon:'🎨',title:'Artes Plásticas y Visuales FUGA 2026',org:'Fundación Gilberto Alzate Avendaño · Bogotá',cat:'visual',desc:'17 estímulos: Beca Investigación creación artística ($30.1M), Premio Fanzine, convocatorias Bronx y memorias del conflicto.',tags:['Artes plásticas','Investigación','Fanzine','Bogotá','$30M beca'],val:'$182M total portafolio',estado:'open',stxt:'◑ Verificar ventanas',fechaCierre:null,fechaDisplay:'Ver fuga.gov.co',url:'https://www.fuga.gov.co'},
-  {icon:'🔬',title:'Arte, Ciencia y Tecnología — IDARTES',org:'IDARTES · Bogotá',cat:'visual',desc:'CK:WEB: proyectos sonoros y audiovisuales experimentales, $21M. Laboratorios arte-ciencia-tecnología. Para artistas con experiencia en nuevos medios.',tags:['Arte+tecnología','Experimental','Bogotá','$21M','Nuevos medios'],val:'$21M (3 × $7M)',estado:'open',stxt:'◑ Segunda ventana posible',fechaCierre:null,fechaDisplay:'Segunda ventana — verificar',url:'https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026'},
-  {icon:'🏛',title:'IDARTES PDE — Artes Visuales 2026',org:'IDARTES · Bogotá',cat:'visual',desc:'Residencias, becas de creación, investigación y circulación para artistas visuales bogotanos. Parte del PDE 2026.',tags:['Bogotá','Residencia','Creación','Circulación','Investigación'],val:'Parte de $6.700M',estado:'open',stxt:'● Múltiples ventanas',fechaCierre:null,fechaDisplay:'Ver CultuRed de IDARTES',url:'https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026'},
-  {icon:'🖼',title:'ARTBO Artecámara 2026',org:'ARTBO · Cámara de Comercio Bogotá',cat:'diseño',desc:'Artistas visuales emergentes en la Feria Internacional de Arte de Bogotá. Todas las disciplinas: foto, video, instalación, dibujo, diseño. Obras desde 2021.',tags:['ARTBO','Emergente','Arte contemporáneo','Feria','Internacional'],val:'Visibilidad + mercado',estado:'open',stxt:'◑ Verificar próxima ed.',fechaCierre:null,fechaDisplay:'Fue: mar 6 – abr 30 de 2026',url:'https://www.artbo.co'},
-];
+// ── DATA — fuente única de verdad: convocatorias.json ──
+// Los arrays se llenan en cargarConvocatorias(). Se mutan en sitio (length=0 + push)
+// para que CULT_ARRAYS conserve la referencia viva.
+let PUB=[],PRIV=[],INTER=[],FUENTES=[];
 
-const PRIV=[
-  {icon:'🎬',title:'SmartFilms 2026',org:'MinTIC + Canal Trece · Festival nacional',cat:'av',desc:'+$100M premios. 12ª edición. Categoría Profesional ($35M, máx 7 min) + 4 categorías MinTIC ($25M c/u). Abierto a toda Colombia.',tags:['Celular','Profesional','$100M+','Nacional','Todo Colombia'],val:'$100M+ en premios',estado:'open',stxt:'● Abierto',fechaCierre:'2026-06-22',fechaDisplay:'Cierre: 22 jun 2026',url:'https://www.smartfilms.com.co'},
-  {icon:'🖌',title:'Salón Visual Bacánika 2026',org:'Revista Bacánika · Colsanitas',cat:'visual',desc:'80 obras para exposición en Bogotá y Comfama Medellín. Ilustradores, dibujantes y artistas visuales residentes en Colombia. Piezas 50×70cm verticales, técnica libre.',tags:['Ilustración','Dibujo','Arte visual','80 obras','Colombia'],val:'Premio + exposición',estado:'open',stxt:'● Abierto',fechaCierre:'2026-06-05',fechaDisplay:'Cierre: 5 jun 2026',url:'https://bacanika.com/articulo/salon-visual-bacanika'},
-  {icon:'🏛',title:'ARTBO Artecámara 2026',org:'Cámara de Comercio de Bogotá',cat:'visual',desc:'Artistas visuales emergentes en la Feria Internacional de Arte. Selección curatorial. Visibilidad ante coleccionistas internacionales.',tags:['Feria arte','Emergente','Internacional','CCB'],val:'Visibilidad + ventas',estado:'privado',stxt:'◑ Cerró abr 30',fechaCierre:null,fechaDisplay:'Fue: mar 6 – abr 30',url:'https://www.artbo.co'},
-  {icon:'📸',title:'Formas de Habitar — Comfama',org:'Comfama · Cultura Hábitat',cat:'foto',desc:'Primer concurso de fotografía de Comfama sobre formas de vivir en Antioquia. Hábitos cotidianos y comunidad. Para fotógrafos de Antioquia.',tags:['Fotografía','Antioquia','Comfama','Comunidad'],val:'Ver bases',estado:'privado',stxt:'◑ Cerró may 17',fechaCierre:null,fechaDisplay:'Cerró: 17 may 2026',url:'https://www.comfama.com'},
-  {icon:'💡',title:'BAM Stories — Guiones 2026',org:'Bogotá Audiovisual Market · CCB',cat:'av',desc:'Para guionistas colombianos con proyectos de ficción para largometraje o series. Citas uno a uno con productores y ejecutivos internacionales.',tags:['Guion','Ficción','Mercado','Industria','Internacional'],val:'Agenda industria',estado:'privado',stxt:'● Activo',fechaCierre:null,fechaDisplay:'bogotamarket.com',url:'https://www.bogotamarket.com'},
-  {icon:'📷',title:'Postales de Colombia 2026',org:'Zona Cinco · Escuela Cine y Fotografía',cat:'foto',desc:'13ª edición cerró. Miniserie de 3 fotografías sobre retratos, oficios y territorios. Premio: $12.465.190.',tags:['Fotografía','Retrato','Serie','Instagram','$12,4M 1er lugar'],val:'$12,4M 1er puesto',estado:'privado',stxt:'◑ Cerró feb 2026',fechaCierre:null,fechaDisplay:'Cerró feb 10 de 2026',url:'https://zonacincobogota.com'},
-  {icon:'🎞',title:'Festival Animación Comfama',org:'Comfama · 3ª edición',cat:'av',desc:'Festival de animación en Medellín. Tercera edición fue mar 12-15 de 2026. Próxima convocatoria para nueva edición.',tags:['Animación','Medellín','Comfama','Festival'],val:'Ver bases',estado:'privado',stxt:'○ Próxima edición',fechaCierre:null,fechaDisplay:'Festival: mar 12-15 de 2026',url:'https://www.comfama.com'},
-  {icon:'🎬',title:'SmartFilms Bogotá-Región',org:'SmartFilms + Cámara Comercio Bogotá',cat:'av',desc:'Modalidad empresarial: cortometrajes sobre negocios bogotanos. Para empresas con matrícula CCB renovada. Sin costo.',tags:['Empresarial','Bogotá','CCB','Sin costo'],val:'Sin costo',estado:'privado',stxt:'◑ Cerró abr 30',fechaCierre:null,fechaDisplay:'Cerró: 30 abr 2026',url:'https://www.ccb.org.co'},
-];
+// El estado NO se escribe a mano: se deriva de fechaCierre contra la fecha de hoy.
+// Así una convocatoria que ya cerró deja de mostrarse como "abierta" sola.
+function normalizaConv(c){
+  const hoy=new Date();hoy.setHours(0,0,0,0);
+  let estado,stxt,fechaDisplay;
+  if(c.fechaCierre){
+    const dias=Math.ceil((new Date(c.fechaCierre+'T23:59:59')-hoy)/86400000);
+    if(dias<0){estado='cerrado';stxt='○ Cerrada';fechaDisplay='Cerró: '+fD(c.fechaCierre)}
+    else if(dias===0){estado='open';stxt='● Hoy';fechaDisplay='⚡ CIERRA HOY'}
+    else{estado='open';stxt='● Abierta';fechaDisplay='Cierre: '+fD(c.fechaCierre)}
+  }else{
+    const m={activo:['open','● Activa'],proxima:['proxima','○ Próxima'],verificar:['periodic','◑ Verificar'],cerrado:['cerrado','○ Cerrada']};
+    const e=m[c.estadoManual]||m.verificar;
+    estado=e[0];stxt=e[1];fechaDisplay=c.notaFecha||'Sin fecha confirmada';
+  }
+  return Object.assign({},c,{estado,stxt,fechaDisplay});
+}
 
-const INTER=[
-  {icon:'🏆',title:'Hubert Bals Fund — IFFR Rotterdam',org:'Festival Internacional Cine Rotterdam',cat:'av',desc:'Para cine de países en desarrollo. Colombia elegible. Guion, desarrollo, producción y posproducción. Dos ventanas al año.',tags:['Europa','Colombia elegible','Producción','Guion','Dos ventanas'],val:'Ver convocatoria EUR',estado:'proxima',stxt:'◑ Dos ventanas/año',fechaCierre:null,fechaDisplay:'iffr.com/hubert-bals-fund',url:'https://iffr.com/en/professionals/funds/hubert-bals-fund'},
-  {icon:'🤝',title:'Ibermedia 2026',org:'Programa Iberoamericano',cat:'av',desc:'Coproducción, desarrollo, distribución y formación. Colombia es país miembro — acceso preferencial. Múltiples convocatorias escalonadas.',tags:['Iberoamérica','Colombia miembro','Coproducción','Múltiples líneas'],val:'Varias convocatorias',estado:'open',stxt:'● Activo 2026',fechaCierre:null,fechaDisplay:'programaibermedia.com',url:'https://www.programaibermedia.com'},
-  {icon:'🎪',title:'Doc Society — Good Pitch',org:'Doc Society International',cat:'av',desc:'Conecta documentalistas con financiadores internacionales, ONGs y medios globales. Impacto social. Pitching real.',tags:['Documental','Pitch','Impacto social','Financiación'],val:'Pitch + financiación',estado:'proxima',stxt:'◑ Por proyecto',fechaCierre:null,fechaDisplay:'docsociety.org',url:'https://docsociety.org'},
-  {icon:'🌐',title:'Sundance Documentary Fund',org:'Sundance Institute USA',cat:'av',desc:'Apoya documentales latinoamericanos. Grants para desarrollo y producción. Dos convocatorias al año. Voces subrepresentadas.',tags:['USA','Documental','Grant','Latinoamérica'],val:'Grants USD',estado:'proxima',stxt:'◑ Dos ventanas/año',fechaCierre:null,fechaDisplay:'sundance.org/documentary-program',url:'https://www.sundance.org/programs/documentary-film-program'},
-  {icon:'📸',title:'Sony Future Filmmakers Awards',org:'Sony · Worldphoto',cat:'av',desc:'Fotografía y cine. Jóvenes y estudiantes. Los elegidos viajan a Los Ángeles con talleres en Sony Pictures y gala de premiación.',tags:['Sony','Fotografía','Cine','Jóvenes','LA'],val:'Viaje + gala',estado:'proxima',stxt:'◑ Próxima edición',fechaCierre:null,fechaDisplay:'worldphoto.org',url:'https://www.worldphoto.org'},
-  {icon:'🇫🇷',title:'Fondo Francófono Audiovisual',org:'OIF — Organización de la Francofonía',cat:'av',desc:'Coproducciones con países francófonos. Colombia puede participar como coproductor. Documentales y ficción.',tags:['Francia','Coproducción','Francofonía','Documental'],val:'Ver bases',estado:'proxima',stxt:'○ Anual',fechaCierre:null,fechaDisplay:'francophonie.org',url:'https://www.francophonie.org'},
-];
+// Abiertas primero (la que cierra antes, arriba), luego por verificar, próximas y cerradas.
+function ordenConv(a,b){
+  const rank=c=>c.estado==='open'?0:c.estado==='periodic'?1:c.estado==='proxima'?2:3;
+  const d=rank(a)-rank(b);if(d)return d;
+  if(a.fechaCierre&&b.fechaCierre){
+    // entre cerradas, la más reciente primero; entre abiertas, la más próxima primero
+    const inv=a.estado==='cerrado'?-1:1;
+    return (a.fechaCierre<b.fechaCierre?-1:1)*inv;
+  }
+  if(a.fechaCierre)return -1;
+  if(b.fechaCierre)return 1;
+  return (a.title||'').localeCompare(b.title||'');
+}
 
-const FUENTES=[
-  {icon:'📡',name:'SINAC — MinCulturas',desc:'Hub oficial de TODAS las convocatorias del Ministerio. Becas, premios, residencias. $175.000M en 2026. Revísalo cada lunes.',badge:'Público · Nacional',badgeCls:'cb-o',url:'https://sistemaconvocatorias.mincultura.gov.co'},
-  {icon:'🎬',name:'IDARTES — CultuRed 2026',desc:'98 convocatorias anuales para Bogotá. Audiovisual, visuales, diseño, tecnología. $6.700M. Ventanas abren sin aviso.',badge:'Público · Distrital',badgeCls:'cb-o',url:'https://www.idartes.gov.co/es/convocatorias/estimulos/portafolio-2026'},
-  {icon:'🖌',name:'Bacánika — Convocatorias',desc:'La mejor fuente privada para el sector creativo colombiano. Ilustración, diseño, fotografía, arte. Actualiza frecuentemente.',badge:'Privado · Revista',badgeCls:'cb-priv',url:'https://bacanika.com/convocatorias'},
-  {icon:'🌐',name:'Recursos Culturales',desc:'Portal internacional: cine, fotografía, diseño, artes plásticas, residencias. Colombia y el mundo.',badge:'Privado · Internacional',badgeCls:'cb-priv',url:'https://www.recursosculturales.com/secciones/concursos-premios/'},
-  {icon:'🎞',name:'Proimágenes — FDC y más',desc:'Todo el cine colombiano: FDC, BAM, festivales, Film Commission. Fuente primaria para el sector cinematográfico.',badge:'Público · Cine',badgeCls:'cb-o',url:'https://www.proimagenescolombia.com'},
-];
+function errorConv(msg){
+  const html=`<div class="stbox"><div class="sti">⚠</div><div class="stt">No se pudieron cargar las convocatorias</div><div class="sts">${esc(msg)}<br><br><button class="post-add-btn" onclick="cargarConvocatorias()">Reintentar</button></div></div>`;
+  ['g-pub','g-priv','g-inter'].forEach(id=>{const g=document.getElementById(id);if(g)g.innerHTML=html});
+}
+
+async function cargarConvocatorias(){
+  let data;
+  try{
+    const r=await fetch('convocatorias.json?v='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    data=await r.json();
+  }catch(e){
+    errorConv('No se pudo leer convocatorias.json ('+e.message+'). Si abriste el archivo directo del disco, ábrelo desde el sitio publicado.');
+    return;
+  }
+  if(!data||!Array.isArray(data.convocatorias)){errorConv('El archivo no tiene el formato esperado.');return}
+  const todas=data.convocatorias.map(normalizaConv);
+  const llena=(arr,items)=>{arr.length=0;items.sort(ordenConv).forEach(x=>arr.push(x))};
+  llena(PUB,todas.filter(c=>c.grupo==='publica'));
+  llena(PRIV,todas.filter(c=>c.grupo==='privada'));
+  llena(INTER,todas.filter(c=>c.grupo==='internacional'));
+  FUENTES.length=0;(data.fuentes||[]).forEach(f=>FUENTES.push(f));
+  renderPub();renderGrid(PRIV,'g-priv','PRIV');renderGrid(INTER,'g-inter','INTER');renderFuentes();
+  pintarBarrido(data.meta,todas);
+}
+
+// Resumen en vivo: cuántas hay, cuántas abiertas, cuántas cierran pronto, último barrido del agente.
+// Todos los contadores salen de los datos — ninguno se escribe a mano en el HTML.
+function pintarBarrido(meta,todas){
+  const abiertas=todas.filter(c=>c.estado==='open').length;
+  const pronto=todas.filter(c=>{
+    if(c.estado!=='open'||!c.fechaCierre)return false;
+    const d=Math.ceil((new Date(c.fechaCierre+'T23:59:59')-new Date())/86400000);
+    return d>=0&&d<=15;
+  }).length;
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  set('st-abiertas',abiertas);set('st-pronto',pronto);set('st-total',todas.length);
+  set('tc-pub',PUB.length);set('tc-priv',PRIV.length);set('tc-inter',INTER.length);set('tc-fuentes',FUENTES.length);
+  const el=document.getElementById('barrido-info');
+  if(!el)return;
+  el.innerHTML=`${todas.length} convocatorias · <strong style="color:var(--g)">${abiertas} abiertas</strong>`
+    +(pronto?` · <strong style="color:var(--r)">${pronto} cierran en ≤15 días</strong>`:'')
+    +` · último barrido del radar: ${meta&&meta.ultimoBarrido?fD(meta.ultimoBarrido):'—'}`;
+}
 
 // ── RENDER ──
 function renderPub(){
   const secs=[
-    {key:'av',label:'Audiovisual & Cine',emoji:'🎬'},
+    {key:'av',label:'Audiovisual & Producción',emoji:'🎬'},
+    {key:'cine',label:'Cine & Documental',emoji:'🎞'},
     {key:'foto',label:'Fotografía & Video',emoji:'📸'},
     {key:'visual',label:'Artes Visuales & Plásticas',emoji:'🎨'},
     {key:'diseño',label:'Diseño & Arte Contemporáneo',emoji:'✏️'},
   ];
+  // Sección extra para cualquier categoría que no esté en secs, para que nada quede oculto.
+  const conocidas=secs.map(s=>s.key);
+  if(PUB.some(f=>!conocidas.includes(f.cat)))secs.push({key:null,label:'Otras',emoji:'📌'});
   const g=document.getElementById('g-pub');g.innerHTML='';
   secs.forEach(s=>{
-    const items=PUB.filter(f=>f.cat===s.key);
+    const items=s.key===null?PUB.filter(f=>!conocidas.includes(f.cat)):PUB.filter(f=>f.cat===s.key);
     if(!items.length)return;
     const d=document.createElement('div');
-    d.innerHTML=`<div class="sec-head"><h2>${s.emoji} ${s.label}</h2><div class="shline"></div><span class="shc">${items.length}</span></div><div class="cgrid" data-sec="${s.key}">${items.map((f,i)=>mkCC(f,PUB.indexOf(f),'PUB')).join('')}</div>`;
+    d.innerHTML=`<div class="sec-head"><h2>${s.emoji} ${s.label}</h2><div class="shline"></div><span class="shc">${items.length}</span></div><div class="cgrid" data-sec="${s.key||'otras'}">${items.map(f=>mkCC(f,PUB.indexOf(f),'PUB')).join('')}</div>`;
     g.appendChild(d);
   });
 }
@@ -1513,7 +1560,7 @@ function renderFuentes(){
   g.innerHTML=FUENTES.map(f=>`<a class="fsrc" href="${f.url}" target="_blank"><div class="fsrc-l"><div class="fsrc-name">${f.icon} ${f.name}</div><div class="fsrc-desc">${f.desc}</div></div><div class="fsrc-r"><span class="badge cbadge ${f.badgeCls}">${f.badge}</span><span class="fsrc-lnk">Ir <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span></div></a>`).join('');
 }
 
-renderPub();renderGrid(PRIV,'g-priv','PRIV');renderGrid(INTER,'g-inter','INTER');renderFuentes();
+cargarConvocatorias();
 
 // ── SISTEMA DE POSTULACIONES (Supabase + localStorage fallback) ──
 let postCache=[];
@@ -1663,7 +1710,9 @@ function postularCul(src,idx){
 loadPosts();
 
 // utils
-function fD(s){if(!s)return'';try{const d=new Date(s);if(isNaN(d))return s;return d.toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric'})}catch{return s}}
+// Una fecha 'YYYY-MM-DD' se debe leer como día local, no como medianoche UTC:
+// en Colombia (UTC-5) lo segundo la corre un día hacia atrás.
+function fD(s){if(!s)return'';try{const d=new Date(/^\d{4}-\d{2}-\d{2}$/.test(s)?s+'T00:00:00':s);if(isNaN(d))return s;return d.toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric'})}catch{return s}}
 function fV(v){if(!v||v==='0')return'';const n=parseFloat(v);if(isNaN(n)||n===0)return'';if(n>=1e9)return'$'+(n/1e9).toFixed(1)+'B';if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';if(n>=1e3)return'$'+(n/1e3).toFixed(0)+'K';return'$'+n.toLocaleString('es-CO')}
 function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 </script>
